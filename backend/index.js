@@ -7,13 +7,14 @@ const mainRouter = require('./routes/mainRoute')
 
 app.use(express.json());
 app.use(cors());
-app.use("/api/v1/",mainRouter);
 
 app.get('/',(req,res)=>{
     res.send(
         "Hello from backend"
     )
 })
+
+app.use("/api/v1/",mainRouter);
 
 //Test Comment
 

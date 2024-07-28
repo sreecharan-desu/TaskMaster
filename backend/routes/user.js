@@ -163,7 +163,7 @@ userRouter.put('/update',validateInputs,auth_user,async(req,res)=>{
 
 });
 
-userRouter.post('/updatetodo',auth_user,async(req,res)=>{
+userRouter.put('/updatetodo',auth_user,async(req,res)=>{
     //updates todo (Title and Description)
     const todoid = req.query.todoid;
     const {title,description} = req.body;

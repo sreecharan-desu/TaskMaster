@@ -9,9 +9,9 @@ app.use(express.json());
 app.use(cors());
 
 app.get('/',(req,res)=>{
-    res.send(
-        "Hello from backend"
-    )
+    res.json({
+    msg :        "Hello from backend"
+})
 })
 
 app.use("/api/v1/",mainRouter);

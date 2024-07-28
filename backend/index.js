@@ -9,9 +9,9 @@ app.use(cors());
 //backendurl (deployment): https://task-master-kohl.vercel.app/
 
 app.get('/',(req,res)=>{
-    res.json({
-    msg :        "Hello from backend"
-})
+    res.send(
+        "Hello from backend"
+    )
 })
 
 app.use("/api/v1/",mainRouter);

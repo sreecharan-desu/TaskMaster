@@ -31,10 +31,22 @@ const todosSchema = new mongoose.Schema({
         ref : 'User',
         required : true
     },
-    Title : String,
-    Description : String,
-    Completed : Boolean,
-    Time : Date
+    Title : {
+        type  : String,
+        default: "Title", // Automatically sets to the current date and time
+    },
+    Description : {
+        type  : String,
+        default: "Description", // Automatically sets to the current date and time
+    },
+    Completed : {
+        type  : Boolean,
+        default: false, // Automatically sets to the current date and time
+    },
+    Time : {
+        type  : Date,
+        default: Date.now, // Automatically sets to the current date and time
+    }
 })
 
 

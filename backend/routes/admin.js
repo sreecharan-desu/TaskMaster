@@ -1,9 +1,10 @@
 const express = require('express');
+const { validateInputs } = require('./middlewares/zod/inputValidation');
 const adminRouter = express.Router();
 
 
 //(post) -end points
-adminRouter.post('/signup',(req,res)=>{
+adminRouter.post('/signup', validateInputs, AdminPrescence , (req,res)=>{
     //code here
     res.json({
         msg : 'Signup'

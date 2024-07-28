@@ -4,12 +4,12 @@ const zod = require('zod');
 const usernameSchema = zod.string().min(8).max(16);
 const passwordSchema = zod.string().min(10).max(12);
 //error messages
-const usernameError = 'Username must contain only 8-16 characters'
-const passwordError = 'Password must contain only 10-12 characters'
+const usernameError = 'Username must contain 8-16 characters'
+const passwordError = 'Password must contain 10-12 characters'
 
 const checkInputs = (username,password)=>{
-    const usernameCheck = usernameSchema.safeParse(username);
-    const passwordCheck = passwordSchema.safeParse(password);
+    const usernameCheck = usernameSchema.safeParse(username).success;
+    const passwordCheck = passwordSchema.safeParse(password).success;
 
     if(usernameCheck && passwordCheck)
         return 0;
@@ -34,8 +34,9 @@ const getErrorMessage = (validationCode)=>{
 const validateInputs = (req,res,next)=>{
     const {username,password} =  req.body;
     const validationInfo = checkInputs(username,password);
-    if(validationInfo == 0)
+    if(validationInfo == 0){
         next();
+    }
     else{
         const errorMessage = getErrorMessage(validationInfo);
         res.json({

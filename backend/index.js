@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-//backendurl : https://task-master-kohl.vercel.app/
+//backendurl (deployment): https://task-master-kohl.vercel.app/
 
 
 app.get('/',(req,res)=>{

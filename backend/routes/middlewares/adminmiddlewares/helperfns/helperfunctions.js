@@ -1,4 +1,4 @@
-const { Admin } = require("../../../db/db");
+const { Admin } = require("../../../../db/db");
 const bcrypt = require('bcrypt');
 
 

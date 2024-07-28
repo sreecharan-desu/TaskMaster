@@ -10,9 +10,9 @@ app.use(cors());
 app.use("/api/v1/",mainRouter);
 
 app.get('/',(req,res)=>{
-    res.json({
-        msg : "Hello from backend"
-    })
+    res.send(
+        "Hello from backend"
+    )
 })
 
 //Test Comment

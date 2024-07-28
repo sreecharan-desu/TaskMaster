@@ -1,3 +1,145 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+.loader1 {
+    width: 50px;
+    aspect-ratio: 1;
+    display: grid;
+    border-radius: 50%;
+    background:
+      linear-gradient(0deg ,rgb(0 0 0/50%) 30%,#0000 0 70%,rgb(0 0 0/100%) 0) 50%/8% 100%,
+      linear-gradient(90deg,rgb(0 0 0/25%) 30%,#0000 0 70%,rgb(0 0 0/75% ) 0) 50%/100% 8%;
+    background-repeat: no-repeat;
+    animation: l23 1s infinite steps(12);
+  }
+  .loader1::before,
+  .loader1::after {
+     content: "";
+     grid-area: 1/1;
+     border-radius: 50%;
+     background: inherit;
+     opacity: 0.915;
+     transform: rotate(30deg);
+  }
+  .loader1::after {
+     opacity: 0.83;
+     transform: rotate(60deg);
+  }
+  @keyframes l23 {
+    100% {transform: rotate(1turn)}
+  }
+
+
+
+
+
+/* HTML: <div class="loader"></div> */
+.loader2 {
+    width: 120px;
+    height: 20px;
+    -webkit-mask: radial-gradient(circle closest-side,#000 94%,#0000) left/20% 100%;
+    background: linear-gradient(#000 0 0) left/0% 100% no-repeat #ddd;
+    animation: l17 2s infinite steps(6);
+  }
+  @keyframes l17 {
+      100% {background-size:120% 100%}
+  }
+
+
+
+.skeleton-list-panel-wrapper {
+    padding: 10px;
+}
+
+.skeleton-list-panel {
+    max-width: 80%;
+    height: 50px;
+    background: #ccc;
+    margin: 15px auto;
+    animation: fading 1.5s infinite;
+}
+
+@keyframes fading {
+    0% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.5;
+    }
+}
+
+
+
+
+
+.skeleton-profile-circle-shimmer {
+    animation: shimmer 2s infinite;
+    background: #ddd linear-gradient(to right, rgba(255, 255, 255, .10) 5%, rgba(255, 255, 255, .30) 10%, rgba(255, 255, 255, .50) 15%);
+    background-size: 150px 150px;
+    background-repeat: no-repeat;
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    margin: 0 auto;
+}
+
+@keyframes shimmer {
+    0% {
+    background-position: -500px 0;
+    }
+    100% {
+    background-position: 500px 0;
+    }
+}
+
+
+.skeleton-panel {
+    max-width: 250px;
+    padding: 15px;
+    border: thin solid #e6e6e6;
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.skeleton-panel-title {
+    border-radius: 100px;
+    max-width: 50px;
+    height: 10px;
+}
+
+.skeleton-panel-content {
+    height: 50px;
+    margin: 5px 0;
+    border-radius: 3px;
+}
+
+.skeleton-panel-title,
+.skeleton-panel-content {
+    background-color: #e1e1e1;
+    opacity: 0.5;
+    animation: fading 1.5s infinite;
+    transition: all 1.5s;
+}
+
+@keyframes fading {
+    0% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.5;
+    }
+}

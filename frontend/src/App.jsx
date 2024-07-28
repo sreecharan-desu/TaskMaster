@@ -30,14 +30,51 @@ import './App.css'
 function App() {
   return (
     <>
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-md space-y-4">
-        <h1 className="text-2xl font-bold">Hello, SreeCharan</h1>
-        <p className="text-gray-700">Tailwind Configuration Completed! <br /> Start Coding . . .</p>
-      </div>
-    </div>
+
     </>
   )
+}
+
+
+function Profile(){
+  return(<>
+    <div class="skeleton-profile-circle-shimmer"></div>
+  </>)
+}
+
+
+function TodoSkeleton(){
+  return(<>
+    <div class="skeleton-panel">
+      <div class="skeleton-panel-title"></div>
+      <div class="skeleton-panel-content"></div>
+    </div>
+  </>)
+}
+
+function Skeletons(){
+  return(<>
+  <div className="skeleton-list-panel-wrapper">
+      <div className="skeleton-list-panel"></div>
+      <div className="skeleton-list-panel"></div>
+      <div className="skeleton-list-panel"></div>
+      <div className="skeleton-list-panel"></div>
+      <div className="skeleton-list-panel"></div>
+  </div>
+  </>)
+}
+
+function Loader1(){
+  return(<>
+      <div class="loader1"></div>
+  </>)
+}
+
+
+function Loader2(){
+  return(<>
+  <div class="loader2"></div>
+  </>)
 }
 
 export default App

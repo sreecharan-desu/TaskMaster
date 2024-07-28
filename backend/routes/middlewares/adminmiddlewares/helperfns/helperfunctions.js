@@ -11,7 +11,7 @@ const current_admin = async(username)=>{
 }
 
 const userNamePrescence = async(username)=>{
-    const admin = current_admin(username);
+    const admin = await current_admin(username);
     if(admin == null){
         return false
     }else{
@@ -21,8 +21,8 @@ const userNamePrescence = async(username)=>{
 
 
 const accountPrescence = async(username,password)=>{
-    const admin = current_admin(username);
-    const match = bcrypt.compare(password,admin.Password);
+    const admin = await current_admin(username);
+    const match = await bcrypt.compare(password,admin.Password);
     if(match){
         return true
     }else{
@@ -34,5 +34,6 @@ const accountPrescence = async(username,password)=>{
 
 module.exports = {
     userNamePrescence,
-    accountPrescence
+    accountPrescence,
+    current_admin
 }

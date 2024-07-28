@@ -1,10 +1,9 @@
 const express = require('express');
+const { validateInputs } = require('./middlewares/zod/inputValidation');
 const userRouter = express.Router();
 
-userRouter.post('/signup',(req,res)=>{
-
-    
-    
+userRouter.post('/signup',validateInputs,(req,res)=>{
+    const {username,password} = req.body;
 
     res.json({
             msg : 'Signup'

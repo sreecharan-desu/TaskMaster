@@ -7,7 +7,7 @@ const generate_JWT_key = (username)=>{
     return key;
 }
 
-
 module.exports = {
-    generate_JWT_key
+    generate_JWT_key,
+    JWT_KEY
 }

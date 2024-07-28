@@ -1,6 +1,4 @@
-const { User } = require("../../../db/db");
-const { generate_hashed_password } = require("../hashfn's/hash-password");
-const { accountExistenceCheck } = require("./signup-middleware");
+const { accountExistenceCheck } = require("./helperFNs/helper_functions");
 
 
 const fecthUserDB = async (req,res,next)=>{

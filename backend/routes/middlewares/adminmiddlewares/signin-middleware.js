@@ -2,7 +2,7 @@ const { accountPrescence } = require("./helperfns/helperfunctions")
 
 
 
-const fetchDB = async()=>{
+const fetchDB = async(req,res,next)=>{
     const {username,password} = req.body;
     const isPresent = await accountPrescence(username,password);
 

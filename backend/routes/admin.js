@@ -1,5 +1,6 @@
 const bcrypt  = require('bcrypt');
 const express = require('express');
+const jwt = require('jsonwebtoken')
 const adminRouter = express.Router();
 const { Admin, User } = require('../db/db');
 const { validateInputs } = require('./middlewares/zod/inputValidation');
@@ -15,7 +16,7 @@ adminRouter.post('/signup', validateInputs, AdminPrescence, async(req,res)=>{
     const saltRounds = 4;
     const hashed_password = await bcrypt.hash(password,saltRounds);
 
-    const admin = await Admin.createOne({
+    const admin = await Admin.create({
         Username : username,
         Password : hashed_password
     })
@@ -48,6 +49,16 @@ adminRouter.get('/details',auth_admin,async(req,res)=>{
 });
 
 
+adminRouter.get('/getusers',auth_admin,async(req,res)=>{
+    //gets the admin details
+    const users = await User.find();
+
+    res.json({
+        users
+    })
+});
+
+
 //(delete) -end points
 adminRouter.delete('/deleteuser', auth_admin,async(req,res)=>{
     //deletes particular user
@@ -58,7 +69,8 @@ adminRouter.delete('/deleteuser', auth_admin,async(req,res)=>{
     })
 
     res.json({
-        msg : `User with user_id : ${userId} deleted successfully`
+        msg : `User with user_id : ${userId} deleted successfully`,
+        success : true
     })
 });
 
@@ -82,7 +94,8 @@ adminRouter.put('/update', validateInputs, auth_admin, async(req,res)=>{
     })
     
     res.json({
-        msg : 'Signin'
+        msg : 'Account details updated successfully',
+        success : true
     })
 });
 

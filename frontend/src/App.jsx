@@ -1,6 +1,7 @@
 import React, { Suspense, useEffect } from 'react';
 import './App.css'
 import {BrowserRouter, Route, Routes, useNavigate} from 'react-router-dom';
+import AdminProfile from './pages/admin/profile/profile';
 const UserSignup = React.lazy((()=>import('./pages/user/signup/signup')));
 const UserSignin = React.lazy((()=>import('./pages/user/signin/signin')));
 const AdminSignup = React.lazy((()=>import('./pages/admin/signup/signup')));
@@ -29,7 +30,7 @@ const UserDashboard = React.lazy((()=>import('./pages/user/Dashboard/userdashboa
     // http://localhost:5000/api/v1/admin/signin (POST) Done.
     // http://localhost:5000/api/v1/admin/details (GET) Done
     // http://localhost:5000/api/v1/admin/getusers (GET) Done
-    // http://localhost:5000/api/v1/admin/deleteuser (DELETE) 
+    // http://localhost:5000/api/v1/admin/deleteuser (DELETE) Done
     // http://localhost:5000/api/v1/admin/update (PUT) 
 
 
@@ -44,6 +45,7 @@ function App() {
           <Route path = '/admin/signin' element = {<Suspense fallback={<Loader2/>}><AdminSignin/></Suspense>}/>        
           <Route path = '/admin/signup' element = {<Suspense fallback={<Loader2/>}><AdminSignup/></Suspense>}/> 
           <Route path = '/user/dashboard' element = {<Suspense fallback={<Loader2/>}><UserDashboard/></Suspense>}/>
+          <Route path = '/admin/profile' element = {<Suspense fallback={<Loader2/>}><AdminProfile/></Suspense>}/> 
           <Route path = '/admin/dashboard' element = {<Suspense fallback={<Loader2/>}><AdminDashboard/></Suspense>}/> 
         </Routes>
       </BrowserRouter>

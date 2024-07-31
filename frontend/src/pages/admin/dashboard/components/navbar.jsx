@@ -1,10 +1,17 @@
+import { useNavigate } from "react-router"
 
 
 export function Navbar({Username}){
 
+    const navigate = useNavigate();
+
     const logout =()=>{
         localStorage.removeItem('Admintoken')
         location.href='/admin/dashboard'
+    }
+
+    const naviagateToProfile = ()=>{
+        navigate('/admin/profile')
     }
 
     return(<>
@@ -13,7 +20,7 @@ export function Navbar({Username}){
                 TaskMaster
             </h1>
             <div className=" flex justify-around place-content-center ml-">
-                <div className="bg-white shadow-lg rounded-full w-10 h-10 text-3xl mr-2 text-black font-bold cursor-pointer shadow-gray-300 hover:shadow-gray-400" title="Account">
+                <div className="bg-white shadow-lg rounded-full w-10 h-10 text-3xl mr-2 text-black font-bold cursor-pointer shadow-gray-300 hover:shadow-gray-400" title="Account" onClick={naviagateToProfile}>
                     {Username[0]}
                 </div>
                 <div className="bg-white shadow-lg rounded-full w-10 h-10 text-3xl cursor-pointer place-content-center font-bold shadow-gray-300 hover:shadow-gray-400" title="Logout" onClick={logout}>

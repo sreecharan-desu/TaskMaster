@@ -46,7 +46,6 @@ export default function AdminDashboard(){
                 }
             })
             const data = await response.json();
-            console.log(data.users);
             setUsers(data.users);   
         }
         fetchUsers();

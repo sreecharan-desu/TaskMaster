@@ -8,10 +8,12 @@ const AdminPrescence = async(req,res,next)=>{
         const accountPresent = await accountPrescence(username,password);
         if(accountPresent){
             res.json({
-                msg : `Hey ${username} how are you! I remember you man Signin Now!`
+                msg : `Hey ${username} how are you! I remember you man Signin Now!`,
+                success : true
             })
         }else{
-            res.json({msg : `${username} is already taken please Try a newOne!`})
+            res.json({msg : `${username} is already taken please Try a newOne!`,success : false})
+            
         }
     }else{
         next()

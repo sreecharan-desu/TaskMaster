@@ -10,9 +10,8 @@ import { useRecoilState } from "recoil";
 import { userSigninmessageAtom, userSigninpasswordAtom, userSigninusernameAtom } from "./store/signinstore";
 
 export default function UserSignin(){
-    
-    const navigate = useNavigate();
 
+    const navigate = useNavigate();
     useEffect(()=>{
         if(localStorage.getItem('token')){
           navigate('/user/dashboard')
@@ -34,6 +33,9 @@ export default function UserSignin(){
 
     const SigninUser = ()=>{
         // http://localhost:5000/api/v1/user/signin (POST)
+        if(username == '' || password == ''){
+            alert('Username and password must not be empty')
+        }
         const bodyData = JSON.stringify({ username, password });
         const callDB=async()=>{
             try{
@@ -45,12 +47,12 @@ export default function UserSignin(){
                     body: bodyData
                 })
                 const data = await response.json();
-                localStorage.setItem('token',JSON.stringify(data.token))
-                useEffect(()=>{
-                    if(localStorage.getItem('token')){
-                      navigate('/user/dashboard')
-                    }
-                },[data])
+                if(data.msg){
+                    setMessage([{message : data.msg,success : false}])
+                }else if(data.token){
+                    localStorage.setItem('token',JSON.stringify(data.token))
+                    location.href = '/user/signin'
+                }
             }
             catch(e){
                 setMessage([{message : 'Error connecting server please check your internet connection',success : 'false'}])

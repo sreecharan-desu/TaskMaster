@@ -5,6 +5,8 @@ const UserSignup = React.lazy((()=>import('./pages/user/signup/signup')));
 const UserSignin = React.lazy((()=>import('./pages/user/signin/signin')));
 const AdminSignup = React.lazy((()=>import('./pages/admin/signup/signup')));
 const AdminSignin = React.lazy((()=>import('./pages/admin/signin/signin')));
+const AdminDashboard = React.lazy((()=>import('./pages/admin/dashboard/admindashboard')));
+const UserDashboard = React.lazy((()=>import('./pages/user/Dashboard/userdashboard')));
 
 //frontendurl(deployment): https://task-master-rose.vercel.app/
 //backendurl (deployment): https://task-master-kohl.vercel.app/
@@ -41,6 +43,8 @@ function App() {
           <Route path = '/user/signup' element = {<Suspense fallback={<Loader2/>}><UserSignup/></Suspense>}/>
           <Route path = '/admin/signin' element = {<Suspense fallback={<Loader2/>}><AdminSignin/></Suspense>}/>        
           <Route path = '/admin/signup' element = {<Suspense fallback={<Loader2/>}><AdminSignup/></Suspense>}/> 
+          <Route path = '/user/dashboard' element = {<Suspense fallback={<Loader2/>}><UserDashboard/></Suspense>}/>
+          <Route path = '/admin/dashboard' element = {<Suspense fallback={<Loader2/>}><AdminDashboard/></Suspense>}/> 
         </Routes>
       </BrowserRouter>
     </>

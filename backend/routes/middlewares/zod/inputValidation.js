@@ -32,7 +32,6 @@ const getErrorMessage = (validationCode)=>{
 }
 
 const validateInputs = (req,res,next)=>{
-    console.log(req.body)
     const {username,password} =  req.body;
     const validationInfo = checkInputs(username,password);
     if(validationInfo == 0){

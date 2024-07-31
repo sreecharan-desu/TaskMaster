@@ -10,13 +10,13 @@ import { useRecoilState } from "recoil";
 import { adminsigninmessageAtom, adminsigninpasswordAtom, adminsigninusernameatom} from "./store/signinstore";
 
 export default function AdminSignin(){
-    
+
     const navigate = useNavigate();
     useEffect(()=>{
         if(localStorage.getItem('Admintoken')){
           navigate('/admin/dashboard')
         }
-      },[])
+    },[])
 
     const [message,setMessage] = useRecoilState(adminsigninmessageAtom);
     const [username,setusername] = useRecoilState(adminsigninusernameatom);
@@ -32,6 +32,9 @@ export default function AdminSignin(){
     }
 
     const SigninUser = ()=>{
+        if(username == '' || password == ''){
+            alert('Username and password must not be empty')
+        }
         const bodyData = JSON.stringify({ username, password });
         const callDB=async()=>{
             try{
@@ -43,13 +46,12 @@ export default function AdminSignin(){
                     body: bodyData
                 })
                 const data = await response.json();
-                localStorage.setItem('Admintoken',JSON.stringify(data.token))
-                console.log(data)
-                useEffect(()=>{
-                    if(localStorage.getItem('Admintoken')){
-                      navigate('/admin/dashboard')
-                    }
-                  },[data])
+                if(data.msg){
+                    setMessage([{message : data.msg,success : false}])
+                }else if(data.token){
+                    localStorage.setItem('Admintoken',JSON.stringify(data.token))
+                    location.href = '/admin/signin'
+                }
             }
             catch(e){
                 setMessage([{message : 'Error connecting server please check your internet connection',success : 'false'}])

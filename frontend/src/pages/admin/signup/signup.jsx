@@ -13,9 +13,9 @@ export default function AdminSignup(){
     
     const navigate = useNavigate();
     useEffect(()=>{
-      if(localStorage.getItem('Admintoken')){
-        navigate('/admin/dashboard')
-      }
+        if(localStorage.getItem('Admintoken')){
+          navigate('/admin/dashboard')
+        }
     },[])
 
     const [message,setMessage] = useRecoilState(adminsignupmessageAtom);

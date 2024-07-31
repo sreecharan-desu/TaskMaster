@@ -12,10 +12,12 @@ import { messageAtom, passwordAtom, usernameAtom } from "./store/signupstore";
 export default function UserSignup(){
     const navigate = useNavigate();
     useEffect(()=>{
-      if(localStorage.getItem('token')){
-        navigate('/user/dashboard')
-      }
-    },[])
+        if(localStorage.getItem('token')){
+          navigate('/user/dashboard')
+        }else{
+            navigate('/user/signup')
+        }
+      },[])
 
     const [message,setMessage] = useRecoilState(messageAtom);
     const [username,setusername] = useRecoilState(usernameAtom);

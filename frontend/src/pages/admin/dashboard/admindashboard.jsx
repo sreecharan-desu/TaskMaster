@@ -14,8 +14,8 @@ export default function AdminDashboard(){
 
     useEffect(()=>{
         if(!localStorage.getItem('Admintoken')){
-            alert('You need to signin to acces this page')
           navigate('/admin/signin')
+          alert('You need to signin to acces this page')
         }
     },[])
 

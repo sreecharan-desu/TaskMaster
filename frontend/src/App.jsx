@@ -31,7 +31,7 @@ const UserDashboard = React.lazy((()=>import('./pages/user/Dashboard/userdashboa
     // http://localhost:5000/api/v1/admin/details (GET) Done
     // http://localhost:5000/api/v1/admin/getusers (GET) Done
     // http://localhost:5000/api/v1/admin/deleteuser (DELETE) Done
-    // http://localhost:5000/api/v1/admin/update (PUT) 
+    // http://localhost:5000/api/v1/admin/update (PUT) Done
 
 
 

@@ -23,7 +23,7 @@ userRouter.post('/signup', validateInputs, verifyUserExistence , async (req,res)
 
             res.status(201).json({
                 msg: `Account created successfully with userId ${user._id}`,
-                user: user
+                success : true
             });
         } else {
             res.status(500).json({

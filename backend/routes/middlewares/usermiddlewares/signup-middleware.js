@@ -7,9 +7,9 @@ const verifyUserExistence = async(req,res,next)=>{
         next()
     }else if(await (username)){
         if(await accountExistenceCheck(username,password)){
-            res.json({msg : `Hey ${username} ! I remember you Signin Now!`})
+            res.json({msg : `Hey ${username} ! I remember you Signin Now!`,success : true})
         }else{
-            res.json({msg : `Sorry, ${username} is already taken please try a newOne!`})}
+            res.json({msg : `Sorry, ${username} is already taken please try a newOne!`,success : true})}
     }
 
 }

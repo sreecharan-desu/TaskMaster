@@ -1,13 +1,18 @@
+import React, { Suspense, useEffect } from 'react';
 import './App.css'
-
+import {BrowserRouter, Route, Routes, useNavigate} from 'react-router-dom';
+const UserSignup = React.lazy((()=>import('./pages/user/signup/signup')));
+const UserSignin = React.lazy((()=>import('./pages/user/signin/signin')));
+const AdminSignup = React.lazy((()=>import('./pages/admin/signup/signup')));
+const AdminSignin = React.lazy((()=>import('./pages/admin/signin/signin')));
 
 //frontendurl(deployment): https://task-master-rose.vercel.app/
 //backendurl (deployment): https://task-master-kohl.vercel.app/
 
 //backend endpoints : 
   //users
-    // http://localhost:5000/api/v1/user/signup (POST)
-    // http://localhost:5000/api/v1/user/signin (POST)
+    // http://localhost:5000/api/v1/user/signup (POST) Done.
+    // http://localhost:5000/api/v1/user/signin (POST) Done.
     // http://localhost:5000/api/v1/user/gettodos (GET)
     // http://localhost:5000/api/v1/user/getusername (GET)
     // http://localhost:5000/api/v1/user/addtodo (POST)
@@ -18,8 +23,8 @@ import './App.css'
 
 
   //admin
-    // http://localhost:5000/api/v1/admin/signup (POST)
-    // http://localhost:5000/api/v1/admin/signin (POST)
+    // http://localhost:5000/api/v1/admin/signup (POST) Done.
+    // http://localhost:5000/api/v1/admin/signin (POST) Done.
     // http://localhost:5000/api/v1/admin/details (GET)
     // http://localhost:5000/api/v1/admin/getusers (GET)
     // http://localhost:5000/api/v1/admin/deleteuser (DELETE) 
@@ -30,7 +35,14 @@ import './App.css'
 function App() {
   return (
     <>
-
+      <BrowserRouter>
+        <Routes>
+          <Route path = '/user/signin' element = {<Suspense fallback={<Loader2/>}>{<UserSignin/>}</Suspense>}/>
+          <Route path = '/user/signup' element = {<Suspense fallback={<Loader2/>}><UserSignup/></Suspense>}/>
+          <Route path = '/admin/signin' element = {<Suspense fallback={<Loader2/>}><AdminSignin/></Suspense>}/>        
+          <Route path = '/admin/signup' element = {<Suspense fallback={<Loader2/>}><AdminSignup/></Suspense>}/> 
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }
@@ -66,14 +78,17 @@ function Skeletons(){
 
 function Loader1(){
   return(<>
-      <div class="loader1"></div>
+      <div className="loader1"></div>
   </>)
 }
 
 
 function Loader2(){
   return(<>
-  <div class="loader2"></div>
+  <div className='flex justify-center place-content-center mt-72'>
+    <div className="flex justify-center place-content-center loader2">
+    </div>
+  </div>
   </>)
 }
 

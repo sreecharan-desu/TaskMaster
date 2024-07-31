@@ -32,6 +32,7 @@ const getErrorMessage = (validationCode)=>{
 }
 
 const validateInputs = (req,res,next)=>{
+    console.log(req.body)
     const {username,password} =  req.body;
     const validationInfo = checkInputs(username,password);
     if(validationInfo == 0){
@@ -40,7 +41,7 @@ const validateInputs = (req,res,next)=>{
     else{
         const errorMessage = getErrorMessage(validationInfo);
         res.json({
-            message : errorMessage,
+            msg : errorMessage,
             success : false
         })
     }

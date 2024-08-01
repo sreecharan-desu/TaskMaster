@@ -66,6 +66,7 @@ export default function UserSignup(){
                     <Hr/>
                     <br />
                     <SigninDialogue message={'Already have an account ?'} link = {'/user/signin'}  linkText={'Signin'} />
+                    <br />
                     <SigninDialogue message={'Are you an Admin?'} link = {'/admin/signin'}  linkText={'Login as admin'} />
             </div>
         </div>

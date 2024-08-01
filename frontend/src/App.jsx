@@ -21,10 +21,11 @@ const UserSignin = React.lazy((()=>import('./pages/user/signin/signin')));
     // http://localhost:5000/api/v1/user/signin (POST) Done.
     // http://localhost:5000/api/v1/user/getusername (GET) Done.
     
-    // http://localhost:5000/api/v1/user/gettodos (GET)
-    // http://localhost:5000/api/v1/user/addtodo (POST)
-    // http://localhost:5000/api/v1/user/markasdone (POST)
-    // http://localhost:5000/api/v1/user/update (PUT)
+    // http://localhost:5000/api/v1/user/gettodos (GET) Done.
+    // http://localhost:5000/api/v1/user/addtodo (POST) Done.
+    // http://localhost:5000/api/v1/user/update (PUT) Done.
+    // http://localhost:5000/api/v1/user/markasdone (POST) Done.
+    
     // http://localhost:5000/api/v1/user/updatetodo (PUT)
     // http://localhost:5000/api/v1/user/removetodo (DELETE)
 

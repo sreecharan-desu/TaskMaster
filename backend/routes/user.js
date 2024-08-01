@@ -111,8 +111,8 @@ userRouter.post('/addtodo',auth_user,async(req,res)=>{
 userRouter.post('/markasdone',auth_user,async(req,res)=>{
     const todoid = req.query.todoid;
 
-    await Todos.updateOne({
-        _id : todoid,
+    await Todos.updateOne({_id : todoid,
+    },{
         Completed : true
     })
 

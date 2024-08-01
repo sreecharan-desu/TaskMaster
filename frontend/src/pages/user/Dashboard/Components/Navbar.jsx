@@ -1,5 +1,7 @@
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { useNavigate } from "react-router";
+import { useRecoilState } from "recoil";
+import { Userusername } from "../store/dashboardStore";
 
 
 export default function Navbar(){
@@ -11,6 +13,23 @@ export default function Navbar(){
         localStorage.removeItem('token')
         navigate('/user/signin')
     }
+
+    const [username,setUsername] = useRecoilState(Userusername);
+
+    useEffect(()=>{
+        const fecthUsername = async()=>{
+            const response = await fetch('http://localhost:5000/api/v1/user/getusername',{
+                method : 'GET',
+                headers : {
+                    authorization : "Bearer " + JSON.parse(localStorage.getItem('token'))
+                }
+            })
+            const data =await response.json();
+            setUsername(data.username)
+        }
+        fecthUsername();
+    },[])
+
     return(<>
         <div className="flex w-full bg-white justify-between -m-5 -ml-5 -mr-5">
             <h1 className="text-2xl text-black font-bold">

@@ -39,9 +39,10 @@ export function Users(){
                     <th> Options </th>
                 </tr>
             </thead>
-            {(users == '') ? <tr>
+            {/* {console.log(users[0]==undefined)} */}
+            {(users[0] == undefined) ? <tr>
                 <td colSpan={4} style={{wordSpacing : '5px'}}>
-                    <div className="text-xl text-center flex  justify-center place-content-center">No users found</div>
+                    <div className="text-xl text-center flex  justify-center place-content-center"><Skeletons/></div>
                 </td>
             </tr>: <tbody>
             {users.map((user,index)=>{
@@ -61,7 +62,26 @@ export function Users(){
                 </tr>
             })}            
             </tbody>}
-        
         </table>
     </>)
 }
+
+
+
+function Skeletons(){
+    return(<>
+    <div className="skeleton-list-panel-wrapper">
+        <div className="skeleton-list-panel w-full"></div>
+        <div className="skeleton-list-panel w-full"></div>
+        <div className="skeleton-list-panel w-full"></div>
+        <div className="skeleton-list-panel w-full"></div>
+        <div className="skeleton-list-panel w-full"></div>
+        <div className="skeleton-list-panel w-full"></div>
+        <div className="skeleton-list-panel w-full"></div>
+        <div className="skeleton-list-panel w-full"></div>
+        <div className="skeleton-list-panel w-full"></div>
+        <div className="skeleton-list-panel w-full"></div>
+    </div>
+    </>)
+  }
+  

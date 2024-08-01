@@ -40,6 +40,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
+          <Route path = '/' element = {<Suspense fallback={<Loader2/>}>{<Home/>}</Suspense>}/>
           <Route path = '/user/signin' element = {<Suspense fallback={<Loader2/>}>{<UserSignin/>}</Suspense>}/>
           <Route path = '/user/signup' element = {<Suspense fallback={<Loader2/>}><UserSignup/></Suspense>}/>
           <Route path = '/admin/signin' element = {<Suspense fallback={<Loader2/>}><AdminSignin/></Suspense>}/>        
@@ -53,6 +54,16 @@ function App() {
   )
 }
 
+
+
+
+function Home(){
+  return(<>
+  
+    Hello from frontend
+    
+  </>)
+}
 
 function Profile(){
   return(<>

@@ -58,6 +58,11 @@ function App() {
 
 
 function Home(){
+  const navigate = useNavigate();
+  useEffect(()=>{
+    navigate('/user/signup')
+  },[])
+
   return(<>
   
     Hello from frontend

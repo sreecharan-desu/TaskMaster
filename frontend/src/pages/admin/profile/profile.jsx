@@ -38,6 +38,10 @@ export default function AdminProfile(){
                 })
                 const data = await response.json();
                 setMessage([{message : data.msg,success : data.success}])
+                localStorage.removeItem('Admintoken')
+                setTimeout(()=>{
+                    location.href='/admin/signin'
+                },2000)
             }
             catch(e){
                 setMessage([{message : 'Error connecting server please check your internet connection',success : 'false'}])

@@ -29,9 +29,9 @@ const UserDashboard = React.lazy((()=>import('./pages/user/Dashboard/userdashboa
     // http://localhost:5000/api/v1/admin/signup (POST) Done.
     // http://localhost:5000/api/v1/admin/signin (POST) Done.
     // http://localhost:5000/api/v1/admin/details (GET) Done
-    // http://localhost:5000/api/v1/admin/getusers (GET) Done
-    // http://localhost:5000/api/v1/admin/deleteuser (DELETE) Done
-    // http://localhost:5000/api/v1/admin/update (PUT) Done
+    // http://localhost:5000/api/v1/admin/getusers (GET) Done.
+    // http://localhost:5000/api/v1/admin/deleteuser (DELETE) Done.
+    // http://localhost:5000/api/v1/admin/update (PUT) Done.
 
 
 
@@ -70,11 +70,7 @@ function Home(){
   </>)
 }
 
-function Profile(){
-  return(<>
-    <div class="skeleton-profile-circle-shimmer"></div>
-  </>)
-}
+
 
 
 function TodoSkeleton(){

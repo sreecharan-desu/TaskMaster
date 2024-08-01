@@ -94,7 +94,7 @@ adminRouter.put('/update', validateInputs, auth_admin, async(req,res)=>{
     })
     
     res.json({
-        msg : 'Account details updated successfully',
+        msg : 'Account details updated successfully Please Signin again for authentication',
         success : true
     })
 });

@@ -8,52 +8,68 @@ import { Wish } from "./components/Wish";
 
 export default function AdminDashboard(){
     const navigate = useNavigate();
-
     const [Username,setUsername] = useRecoilState(username);
     const [users,setUsers] = useRecoilState(UsersList);
 
     useEffect(()=>{
         if(!localStorage.getItem('Admintoken')){
-          navigate('/admin/signin')
-          alert('You need to signin to acces this page')
+            setTimeout(()=>{
+                navigate('/admin/signin')
+            },1000)
         }
     },[])
 
-    useEffect(()=>{
-        const fecthUsername = async()=>{
-            const response = await fetch('http://localhost:5000/api/v1/admin/details',{
-                method : 'GET',
-                headers : {
-                    'Content-Type' : 'application/json',
-                    authorization : "Bearer " + JSON.parse(localStorage.getItem('Admintoken'))
-                }
-            });
-            const data = await response.json();
-            setUsername(data.username);
-        }
-        fecthUsername();
-    },[])
+    if(localStorage.getItem('Admintoken')){
+        useEffect(()=>{
+            const fecthUsername = async()=>{
+                const response = await fetch('http://localhost:5000/api/v1/admin/details',{
+                    method : 'GET',
+                    headers : {
+                        'Content-Type' : 'application/json',
+                        authorization : "Bearer " + JSON.parse(localStorage.getItem('Admintoken'))
+                    }
+                });
+                const data = await response.json();
+                setUsername(data.username);
+            }
+            fecthUsername();
+        },[])
+    
+    
+    
+        useEffect(()=>{
+            const fetchUsers = async()=>{
+                const response = await fetch('http://localhost:5000/api/v1/admin/getusers',{
+                    method : 'GET',
+                    headers : {
+                        "Content-Type" : "application/json",
+                        authorization : "Bearer " + JSON.parse(localStorage.getItem('Admintoken'))
+                    }
+                })
+                const data = await response.json();
+                setUsers(data.users);   
+            }
+            fetchUsers();
+        },[])
+        return(<>
+            <Navbar Username ={Username}/>
+            <Wish/>
+            <Users UsersList={users}/>
+        </>)    
+    }else{
+        return(<>
+            <Warning/>
+        </>)
+    }
+    
+
+}
 
 
-
-    useEffect(()=>{
-        const fetchUsers = async()=>{
-            const response = await fetch('http://localhost:5000/api/v1/admin/getusers',{
-                method : 'GET',
-                headers : {
-                    "Content-Type" : "application/json",
-                    authorization : "Bearer " + JSON.parse(localStorage.getItem('Admintoken'))
-                }
-            })
-            const data = await response.json();
-            setUsers(data.users);   
-        }
-        fetchUsers();
-    },[])
-
+function Warning(){
     return(<>
-        <Navbar Username ={Username}/>
-        <Wish/>
-        <Users UsersList={users}/>
+        <h1 className="flex place-content-center text-3xl">
+            You need to Signin to access this page
+        </h1>
     </>)
 }

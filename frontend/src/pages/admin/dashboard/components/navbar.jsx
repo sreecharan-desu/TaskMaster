@@ -21,7 +21,7 @@ export function Navbar({Username}){
             </h1>
             <div className=" flex justify-around place-content-center ml-">
                 <div className="bg-white shadow-lg rounded-full w-10 h-10 text-3xl mr-2 text-black font-bold cursor-pointer shadow-gray-300 hover:shadow-gray-400" title="Account" onClick={naviagateToProfile}>
-                    {Username[0]}
+                    {(Username[0] == '') ?<Profile/> : Username[0]}
                 </div>
                 <div className="bg-white shadow-lg rounded-full w-10 h-10 text-3xl cursor-pointer place-content-center font-bold shadow-gray-300 hover:shadow-gray-400" title="Logout" onClick={logout}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 32 32" strokeWidth={2} stroke="currentColor" className="size-10 pt-2 pl-2 place-content-center">
@@ -32,3 +32,9 @@ export function Navbar({Username}){
         </div>
     </>)
 }
+
+function Profile(){
+    return(<>
+      <div class="skeleton-profile-circle-shimmer"></div>
+    </>)
+  }

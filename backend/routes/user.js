@@ -125,7 +125,7 @@ userRouter.post('/markasdone',auth_user,async(req,res)=>{
 
 
 //(put) -end points
-userRouter.put('/update',validateInputs,auth_user,async(req,res)=>{
+userRouter.put('/update',validateInputs,verifyUserExistence,auth_user,async(req,res)=>{
     //updates user details (username and password)
     const {username,password} = req.body;
     const authorization = req.headers.authorization;
@@ -156,8 +156,8 @@ userRouter.put('/update',validateInputs,auth_user,async(req,res)=>{
 
 
     res.json({
-        msg : 'User details updated successfully',
-        new_usr
+        msg : 'User details updated successfully Please signin again for authentication',
+        success : true
     })
 
 

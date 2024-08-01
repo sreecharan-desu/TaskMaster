@@ -17,5 +17,5 @@ export const updatedPassword = atom({
 
 export const messageAtom = atom({
     key : 'messageAtom',
-    default : [{message : '',success : false}]
+    default : [{}]
 })

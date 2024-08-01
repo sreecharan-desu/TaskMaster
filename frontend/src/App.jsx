@@ -19,8 +19,9 @@ const UserSignin = React.lazy((()=>import('./pages/user/signin/signin')));
   //users
     // http://localhost:5000/api/v1/user/signup (POST) Done.
     // http://localhost:5000/api/v1/user/signin (POST) Done.
-    // http://localhost:5000/api/v1/user/gettodos (GET)
     // http://localhost:5000/api/v1/user/getusername (GET) Done.
+    
+    // http://localhost:5000/api/v1/user/gettodos (GET)
     // http://localhost:5000/api/v1/user/addtodo (POST)
     // http://localhost:5000/api/v1/user/markasdone (POST)
     // http://localhost:5000/api/v1/user/update (PUT)

@@ -39,7 +39,7 @@ export default function Navbar(){
                 <a className="cursor-pointer"  onClick={naviagteToAccount}>
                     <Suspense fallback={''}>
                         <div className="flex justify-center place-content-center w-10 h-10 bg-blue-200 shadow-lg hover:shadow-2xl text-3xl rounded-full ">
-                            S
+                            {username[0]}
                         </div>
                     </Suspense>
                 </a>

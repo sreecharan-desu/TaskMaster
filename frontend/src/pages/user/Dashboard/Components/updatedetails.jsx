@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router";
 import { Message } from "../../../signup&signin-comp/Message";
 import { messageAtom, updatedPassword, updatedUsername } from "../store/dashboardStore";
 import { Button } from "./Button";
@@ -5,9 +6,9 @@ import { InputBox } from "./InputBox";
 import {useRecoilState} from 'recoil';
 
 export default function UpdateDetails(){
-
-    const [updateUsername,setUpdatedUsername] = useRecoilState(updatedUsername);
-    const [updatePassword,setUpdatedPassword] = useRecoilState(updatedPassword);
+    const navigate = useNavigate();
+    const [username,setUpdatedUsername] = useRecoilState(updatedUsername);
+    const [password,setUpdatedPassword] = useRecoilState(updatedPassword);
     const [message,Setmessage] = useRecoilState(messageAtom);
 
     const setUsername = (event)=>{
@@ -19,23 +20,38 @@ export default function UpdateDetails(){
     }
 
     const updateDetails =async()=>{
-        const bodyData = JSON.stringify({
-            username : updateUsername,
-            password : updatedPassword  
-        })
-        const response = await fetch('http://localhost:5000/api/v1/user/update',{
-            method : 'PUT',
-            headers : 'Bearer ' + JSON.parse(localStorage.getItem('token')),
-            body : bodyData
-        });
-        const data = await response.json();
-        Setmessage(data.msg);
+        if(username == '' || password == ''){
+            Setmessage([{message : 'Username and password cannot be empty' , success : false}]);
+        }else{
+            const bodyData = JSON.stringify({ username, password });
+            try{
+                const response = await fetch('http://localhost:5000/api/v1/user/update',{
+                    method: 'PUT',
+                    headers: {
+                      'Content-Type': 'application/json',
+                       authorization : "Bearer " + JSON.parse(localStorage.getItem('token'))
+                    },
+                    body: bodyData
+                })
+                const data = await response.json();
+                Setmessage([{message : data.msg , success : data.success}])
+                if(data.success){
+                    localStorage.removeItem('token')
+                    setTimeout(()=>{
+                        navigate('/user/signin')
+                    },1000) 
+                }               
+            }
+            catch(e){
+                Setmessage([{message : 'Error connecting server please check your internet connection',success : 'false'}])
+            }
+        }
     }
 
     return(<>
-    <div className="flex place-content-center">
+    <div className="flex-col place-content-center justify-center">
         { message ? <Message text={message[0].message} background = {message[0].success}/> : <></>}
-        <div className="bg-white shadow-2xl mt-48 p-5 w-1/2">
+        <div className="bg-white shadow-2xl mt-48 p-5 w-98">
             <h1 className="text-3xl font-extrabold">
                 Update details
             </h1>

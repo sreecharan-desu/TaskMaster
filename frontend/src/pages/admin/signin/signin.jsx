@@ -50,7 +50,11 @@ export default function AdminSignin(){
                     setMessage([{message : data.msg,success : false}])
                 }else if(data.token){
                     localStorage.setItem('Admintoken',JSON.stringify(data.token))
+<<<<<<< HEAD
                     navigate('/admin/dashboard');
+=======
+                    navigate('/admin/dashboard')
+>>>>>>> 1b97c0047409475ac486d6640dbc3e43ded2d489
                 }
             }
             catch(e){

@@ -6,6 +6,7 @@ import {Message}  from '../../signup&signin-comp/Message'
 import {Heading}  from '../../signup&signin-comp/heading'
 import {InputBox}  from '../../signup&signin-comp/InputBox'
 import {Button}  from '../../signup&signin-comp/Button'
+import { useNavigate } from "react-router";
 
 
 export default function AdminProfile(){
@@ -22,7 +23,7 @@ export default function AdminProfile(){
     const passwordHadler = (event)=>{
         setpassword(event.target.value)
     }
-
+    const navigate = useNavigate();
     const UpdateDetails = ()=>{
     // https://task-master-api-psi.vercel.app/api/v1/admin/update (PUT) 
     const bodyData = JSON.stringify({username : usernameProfile, password : password });
@@ -40,7 +41,7 @@ export default function AdminProfile(){
                 setMessage([{message : data.msg,success : data.success}])
                 localStorage.removeItem('Admintoken')
                 setTimeout(()=>{
-                    location.href='/admin/signin'
+                    navigate('/admin/signin')
                 },2000)
             }
             catch(e){

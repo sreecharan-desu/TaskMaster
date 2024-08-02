@@ -7,7 +7,7 @@ export function Navbar({Username}){
 
     const logout =()=>{
         localStorage.removeItem('Admintoken')
-        location.href='/admin/dashboard'
+        navigate('/admin/signin')
     }
 
     const naviagateToProfile = ()=>{

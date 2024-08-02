@@ -51,7 +51,7 @@ export default function UserSignin(){
                     setMessage([{message : data.msg,success : false}])
                 }else if(data.token){
                     localStorage.setItem('token',JSON.stringify(data.token))
-                    location.href = '/user/signin'
+                    navigate('/user/signin')
                 }
             }
             catch(e){

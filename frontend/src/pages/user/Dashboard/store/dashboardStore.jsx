@@ -35,3 +35,25 @@ export const todoDescription = atom({
     key : 'todoDescription',
     default : ''
 }) 
+
+
+export const updatedTitle =  atom({
+    key : 'updatedTitle',
+    default :  ''
+})
+
+
+
+export const updatedDescription =  atom({
+    key : 'updatedDescription',
+    default :  ''
+})
+
+
+export const updateStatus = atom({
+    key : 'updateStatus',
+    default : [{
+        request : false,
+        indexes : []
+    }]
+})

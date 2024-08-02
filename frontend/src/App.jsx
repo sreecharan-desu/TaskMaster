@@ -24,9 +24,8 @@ const UserSignin = React.lazy((()=>import('./pages/user/signin/signin')));
     // http://localhost:5000/api/v1/user/addtodo (POST) Done.
     // http://localhost:5000/api/v1/user/update (PUT) Done.
     // http://localhost:5000/api/v1/user/markasdone (POST) Done.
-
-    // http://localhost:5000/api/v1/user/updatetodo (PUT)
-    // http://localhost:5000/api/v1/user/removetodo (DELETE)
+    // http://localhost:5000/api/v1/user/updatetodo (PUT) Done.
+    // http://localhost:5000/api/v1/user/removetodo (DELETE) Done.
 
 
   //admin

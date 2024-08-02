@@ -169,7 +169,8 @@ userRouter.put('/updatetodo',auth_user,async(req,res)=>{
     const {title,description} = req.body;
 
     await Todos.updateOne({
-        _id : todoid,
+        _id : todoid
+    },{
         Title : title,
         Description : description
     })
@@ -184,7 +185,6 @@ userRouter.put('/updatetodo',auth_user,async(req,res)=>{
 //delete -end points
 userRouter.delete('/removetodo',auth_user,async(req,res)=>{
     const todoid = req.query.todoid;
-    const {title,description} = req.body;
 
     await Todos.deleteOne({
         _id : todoid

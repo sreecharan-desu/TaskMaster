@@ -29,7 +29,7 @@ export default function UpdateTodo({TodoId}){
                     title,
                     description
                 });
-                const response = await fetch(`http://localhost:5000/api/v1/user/updatetodo?todoid=${TodoId}`,{
+                const response = await fetch(`https://task-master-kohl.vercel.app//user/updatetodo?todoid=${TodoId}`,{
                     method  : 'PUT',
                     headers : {
                         'Content-Type' : 'application/json',
@@ -38,7 +38,7 @@ export default function UpdateTodo({TodoId}){
                     body : bodyData
                 })
                 const fetchTodos = async()=>{            
-                    const response  =await fetch('http://localhost:5000/api/v1/user/gettodos',{
+                    const response  =await fetch('https://task-master-kohl.vercel.app//user/gettodos',{
                         method : 'GET',
                         headers : {
                             'Content-Type' : 'application/json',

@@ -20,7 +20,7 @@ export function AddTodo(){
 
     const addTodo = async()=>{
         const bodyData = JSON.stringify({ title,description })
-        const resposne = await fetch('http://localhost:5000/api/v1/user/addtodo',{
+        const resposne = await fetch('https://task-master-kohl.vercel.app//user/addtodo',{
             method : 'POST',
             headers : {
                 'Content-Type' : 'application/json',
@@ -31,7 +31,7 @@ export function AddTodo(){
         const data = await resposne.json();
         console.log(data);
         const fetchTodos = async()=>{
-            const response  =await fetch('http://localhost:5000/api/v1/user/gettodos',{
+            const response  =await fetch('https://task-master-kohl.vercel.app//user/gettodos',{
                 method : 'GET',
                 headers : {
                     'Content-Type' : 'application/json',

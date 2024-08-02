@@ -32,11 +32,11 @@ export default function AdminSignup(){
     }
 
     const SignupUser = ()=>{
-        // http://localhost:5000/api/v1/user/signup (POST)
+        // https://task-master-kohl.vercel.app//user/signup (POST)
         const bodyData = JSON.stringify({ username, password });
         const callDB=async()=>{
             try{
-                const response = await fetch('http://localhost:5000/api/v1/admin/signup',{
+                const response = await fetch('https://task-master-kohl.vercel.app//admin/signup',{
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json'

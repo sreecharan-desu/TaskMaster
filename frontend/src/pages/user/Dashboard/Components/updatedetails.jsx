@@ -25,7 +25,7 @@ export default function UpdateDetails(){
         }else{
             const bodyData = JSON.stringify({ username, password });
             try{
-                const response = await fetch('http://localhost:5000/api/v1/user/update',{
+                const response = await fetch('https://task-master-kohl.vercel.app//user/update',{
                     method: 'PUT',
                     headers: {
                       'Content-Type': 'application/json',

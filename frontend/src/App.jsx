@@ -17,24 +17,24 @@ const UserSignin = React.lazy((()=>import('./pages/user/signin/signin')));
 
 //backend endpoints : 
   //users
-    // http://localhost:5000/api/v1/user/signup (POST) Done.
-    // http://localhost:5000/api/v1/user/signin (POST) Done.
-    // http://localhost:5000/api/v1/user/getusername (GET) Done.
-    // http://localhost:5000/api/v1/user/gettodos (GET) Done.
-    // http://localhost:5000/api/v1/user/addtodo (POST) Done.
-    // http://localhost:5000/api/v1/user/update (PUT) Done.
-    // http://localhost:5000/api/v1/user/markasdone (POST) Done.
-    // http://localhost:5000/api/v1/user/updatetodo (PUT) Done.
-    // http://localhost:5000/api/v1/user/removetodo (DELETE) Done.
+    // https://task-master-kohl.vercel.app//user/signup (POST) Done.
+    // https://task-master-kohl.vercel.app//user/signin (POST) Done.
+    // https://task-master-kohl.vercel.app//user/getusername (GET) Done.
+    // https://task-master-kohl.vercel.app//user/gettodos (GET) Done.
+    // https://task-master-kohl.vercel.app//user/addtodo (POST) Done.
+    // https://task-master-kohl.vercel.app//user/update (PUT) Done.
+    // https://task-master-kohl.vercel.app//user/markasdone (POST) Done.
+    // https://task-master-kohl.vercel.app//user/updatetodo (PUT) Done.
+    // https://task-master-kohl.vercel.app//user/removetodo (DELETE) Done.
 
 
   //admin
-    // http://localhost:5000/api/v1/admin/signup (POST) Done.
-    // http://localhost:5000/api/v1/admin/signin (POST) Done.
-    // http://localhost:5000/api/v1/admin/details (GET) Done
-    // http://localhost:5000/api/v1/admin/getusers (GET) Done.
-    // http://localhost:5000/api/v1/admin/deleteuser (DELETE) Done.
-    // http://localhost:5000/api/v1/admin/update (PUT) Done.
+    // https://task-master-kohl.vercel.app//admin/signup (POST) Done.
+    // https://task-master-kohl.vercel.app//admin/signin (POST) Done.
+    // https://task-master-kohl.vercel.app//admin/details (GET) Done
+    // https://task-master-kohl.vercel.app//admin/getusers (GET) Done.
+    // https://task-master-kohl.vercel.app//admin/deleteuser (DELETE) Done.
+    // https://task-master-kohl.vercel.app//admin/update (PUT) Done.
 
 
 

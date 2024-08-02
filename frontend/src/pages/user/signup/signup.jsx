@@ -33,11 +33,11 @@ export default function UserSignup(){
     }
 
     const SignupUser = ()=>{
-        // https://task-master-kohl.vercel.app/user/signup (POST)
+        // https://task-master-api-five.vercel.app/user/signup (POST)
         const bodyData = JSON.stringify({ username, password });
         const callDB=async()=>{
             try{
-                const response = await fetch('https://task-master-kohl.vercel.app/user/signup',{
+                const response = await fetch('https://task-master-api-five.vercel.app/user/signup',{
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json'

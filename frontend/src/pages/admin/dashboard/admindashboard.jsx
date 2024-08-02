@@ -22,7 +22,7 @@ export default function AdminDashboard(){
     if(localStorage.getItem('Admintoken')){
         useEffect(()=>{
             const fecthUsername = async()=>{
-                const response = await fetch('https://task-master-api-psi.vercel.app/admin/details',{
+                const response = await fetch('https://task-master-api-psi.vercel.app/api/v1/admin/details',{
                     method : 'GET',
                     headers : {
                         'Content-Type' : 'application/json',
@@ -39,7 +39,7 @@ export default function AdminDashboard(){
     
         useEffect(()=>{
             const fetchUsers = async()=>{
-                const response = await fetch('https://task-master-api-psi.vercel.app/admin/getusers',{
+                const response = await fetch('https://task-master-api-psi.vercel.app/api/v1/admin/getusers',{
                     method : 'GET',
                     headers : {
                         "Content-Type" : "application/json",

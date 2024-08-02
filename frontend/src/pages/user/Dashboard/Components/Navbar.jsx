@@ -18,7 +18,7 @@ export default function Navbar(){
 
     useEffect(()=>{
         const fecthUsername = async()=>{
-            const response = await fetch('https://task-master-api-five.vercel.app/user/getusername',{
+            const response = await fetch('https://task-master-api-psi.vercel.app/api/v1/user/getusername',{
                 method : 'GET',
                 headers : {
                     authorization : "Bearer " + JSON.parse(localStorage.getItem('token'))

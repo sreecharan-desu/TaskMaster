@@ -32,11 +32,11 @@ export default function AdminSignup(){
     }
 
     const SignupUser = ()=>{
-        // https://task-master-api-psi.vercel.app/user/signup (POST)
+        // https://task-master-api-psi.vercel.app/api/v1/user/signup (POST)
         const bodyData = JSON.stringify({ username, password });
         const callDB=async()=>{
             try{
-                const response = await fetch('https://task-master-api-psi.vercel.app/admin/signup',{
+                const response = await fetch('https://task-master-api-psi.vercel.app/api/v1/admin/signup',{
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json'

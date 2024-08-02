@@ -4,11 +4,11 @@ import { UsersList } from "../Dashboardstore/admin-dashboard-store";
 
 
 export function Users(){
-    // https://task-master-api-psi.vercel.app/admin/deleteuser
+    // https://task-master-api-psi.vercel.app/api/v1/admin/deleteuser
     const navigate = useNavigate();
     const [users,setUsers] = useRecoilState(UsersList);
     const removeUser = async(userId)=>{
-        const response = await fetch(`https://task-master-api-psi.vercel.app/admin/deleteuser?userId=${userId}`,{
+        const response = await fetch(`https://task-master-api-psi.vercel.app/api/v1/admin/deleteuser?userId=${userId}`,{
             method : 'DELETE',
             headers : {
                 'Content-Type' : 'application/json',
@@ -17,7 +17,7 @@ export function Users(){
         })
         const data  = await response.json();
         if(data.success){
-            const response = await fetch('https://task-master-api-psi.vercel.app/admin/getusers',{
+            const response = await fetch('https://task-master-api-psi.vercel.app/api/v1/admin/getusers',{
                 method : 'GET',
                 headers : {
                     "Content-Type" : "application/json",

@@ -37,7 +37,7 @@ export default function UserSignup(){
         const bodyData = JSON.stringify({ username, password });
         const callDB=async()=>{
             try{
-                const response = await fetch('https://task-master-api-psi.vercel.app/user/signup',{
+                const response = await fetch('https://task-master-api-psi.vercel.app/api/v1/user/signup',{
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json'

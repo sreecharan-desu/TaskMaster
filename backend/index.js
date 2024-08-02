@@ -4,11 +4,7 @@ const cors = require('cors');
 const mainRouter = require('./routes/mainRoute')
 const app = express();
 app.use(express.json());
-app.use(cors({
-    origin : 'https://task-master-rose.vercel.app/',
-    methods : ('GET','POST','PUT','DELETE'),
-    credentials : true
-}));
+app.use(cors());
 
 //backendurl (deployment): https://task-master-kohl.vercel.app/
 app.get('/',(req,res)=>{

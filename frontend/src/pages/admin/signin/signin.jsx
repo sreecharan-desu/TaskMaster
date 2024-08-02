@@ -38,7 +38,7 @@ export default function AdminSignin(){
         const bodyData = JSON.stringify({ username, password });
         const callDB=async()=>{
             try{
-                const response = await fetch('https://task-master-kohl.vercel.app//admin/signin',{
+                const response = await fetch('https://task-master-kohl.vercel.app/admin/signin',{
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json'

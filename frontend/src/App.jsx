@@ -17,24 +17,24 @@ const UserSignin = React.lazy((()=>import('./pages/user/signin/signin')));
 
 //backend endpoints : 
   //users
-    // https://task-master-kohl.vercel.app//user/signup (POST) Done.
-    // https://task-master-kohl.vercel.app//user/signin (POST) Done.
-    // https://task-master-kohl.vercel.app//user/getusername (GET) Done.
-    // https://task-master-kohl.vercel.app//user/gettodos (GET) Done.
-    // https://task-master-kohl.vercel.app//user/addtodo (POST) Done.
-    // https://task-master-kohl.vercel.app//user/update (PUT) Done.
-    // https://task-master-kohl.vercel.app//user/markasdone (POST) Done.
-    // https://task-master-kohl.vercel.app//user/updatetodo (PUT) Done.
-    // https://task-master-kohl.vercel.app//user/removetodo (DELETE) Done.
+    // https://task-master-kohl.vercel.app/user/signup (POST) Done.
+    // https://task-master-kohl.vercel.app/user/signin (POST) Done.
+    // https://task-master-kohl.vercel.app/user/getusername (GET) Done.
+    // https://task-master-kohl.vercel.app/user/gettodos (GET) Done.
+    // https://task-master-kohl.vercel.app/user/addtodo (POST) Done.
+    // https://task-master-kohl.vercel.app/user/update (PUT) Done.
+    // https://task-master-kohl.vercel.app/user/markasdone (POST) Done.
+    // https://task-master-kohl.vercel.app/user/updatetodo (PUT) Done.
+    // https://task-master-kohl.vercel.app/user/removetodo (DELETE) Done.
 
 
   //admin
-    // https://task-master-kohl.vercel.app//admin/signup (POST) Done.
-    // https://task-master-kohl.vercel.app//admin/signin (POST) Done.
-    // https://task-master-kohl.vercel.app//admin/details (GET) Done
-    // https://task-master-kohl.vercel.app//admin/getusers (GET) Done.
-    // https://task-master-kohl.vercel.app//admin/deleteuser (DELETE) Done.
-    // https://task-master-kohl.vercel.app//admin/update (PUT) Done.
+    // https://task-master-kohl.vercel.app/admin/signup (POST) Done.
+    // https://task-master-kohl.vercel.app/admin/signin (POST) Done.
+    // https://task-master-kohl.vercel.app/admin/details (GET) Done
+    // https://task-master-kohl.vercel.app/admin/getusers (GET) Done.
+    // https://task-master-kohl.vercel.app/admin/deleteuser (DELETE) Done.
+    // https://task-master-kohl.vercel.app/admin/update (PUT) Done.
 
 
 

@@ -24,11 +24,11 @@ export default function AdminProfile(){
     }
 
     const UpdateDetails = ()=>{
-    // https://task-master-kohl.vercel.app//admin/update (PUT) 
+    // https://task-master-kohl.vercel.app/admin/update (PUT) 
     const bodyData = JSON.stringify({username : usernameProfile, password : password });
         const callDB=async()=>{
             try{
-                const response = await fetch('https://task-master-kohl.vercel.app//admin/update',{
+                const response = await fetch('https://task-master-kohl.vercel.app/admin/update',{
                     method: 'PUT',
                     headers: {
                       'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ export default function AdminProfile(){
 
     useEffect(()=>{
         const fecthUsername = async()=>{
-            const response = await fetch('https://task-master-kohl.vercel.app//admin/details',{
+            const response = await fetch('https://task-master-kohl.vercel.app/admin/details',{
                 method : 'GET',
                 headers : {
                     'Content-Type' : 'application/json',

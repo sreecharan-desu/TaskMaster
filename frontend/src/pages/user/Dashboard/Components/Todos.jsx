@@ -5,16 +5,16 @@ import { AddTodo } from "./Addtodo";
 import UpdateTodo from "./updatetodo";
 
 export default function Todos(){
-    // https://task-master-kohl.vercel.app//user/gettodos (GET)
-    // https://task-master-kohl.vercel.app//user/markasdone?todoid=${todoid}`
-    // https://task-master-kohl.vercel.app//user/updatetodo (PUT) Done.
+    // https://task-master-kohl.vercel.app/user/gettodos (GET)
+    // https://task-master-kohl.vercel.app/user/markasdone?todoid=${todoid}`
+    // https://task-master-kohl.vercel.app/user/updatetodo (PUT) Done.
 
     const [todos,Settodos] = useRecoilState(todosAtom);
     const [updatestatus,setUpdatestatus] = useRecoilState(updateStatus); 
 
     useEffect(()=>{
         const fetchTodos = async()=>{
-            const response  =await fetch('https://task-master-kohl.vercel.app//user/gettodos',{
+            const response  =await fetch('https://task-master-kohl.vercel.app/user/gettodos',{
                 method : 'GET',
                 headers : {
                     'Content-Type' : 'application/json',
@@ -30,7 +30,7 @@ export default function Todos(){
 
     const markAsCompleted = (todoid)=>{
         const markTodoCompleted = async()=>{
-            const response  =await fetch(`https://task-master-kohl.vercel.app//user/markasdone?todoid=${todoid}`,{
+            const response  =await fetch(`https://task-master-kohl.vercel.app/user/markasdone?todoid=${todoid}`,{
                 method : 'POST',
                 headers : {
                     'Content-Type' : 'application/json',
@@ -38,7 +38,7 @@ export default function Todos(){
                 }
             })
             const fetchTodos = async()=>{            
-                const response  =await fetch('https://task-master-kohl.vercel.app//user/gettodos',{
+                const response  =await fetch('https://task-master-kohl.vercel.app/user/gettodos',{
                     method : 'GET',
                     headers : {
                         'Content-Type' : 'application/json',
@@ -54,7 +54,7 @@ export default function Todos(){
     }
 
     const removeTodo = async(todoid)=>{
-        const response = await fetch(`https://task-master-kohl.vercel.app//user/removetodo?todoid=${todoid}`,{
+        const response = await fetch(`https://task-master-kohl.vercel.app/user/removetodo?todoid=${todoid}`,{
             method  : 'DELETE',
             headers : {
                 'Content-Type' : 'application/json',
@@ -62,7 +62,7 @@ export default function Todos(){
             }
         })
         const fetchTodos = async()=>{            
-            const response  =await fetch('https://task-master-kohl.vercel.app//user/gettodos',{
+            const response  =await fetch('https://task-master-kohl.vercel.app/user/gettodos',{
                 method : 'GET',
                 headers : {
                     'Content-Type' : 'application/json',

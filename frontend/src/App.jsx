@@ -41,19 +41,21 @@ const UserSignin = React.lazy((()=>import('./pages/user/signin/signin')));
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path = '/' element = {<Suspense fallback={<Loader2/>}>{<Home/>}</Suspense>}/>
-          <Route path = '/user/signin' element = {<Suspense fallback={<Loader2/>}>{<UserSignin/>}</Suspense>}/>
-          <Route path = '/user/signup' element = {<Suspense fallback={<Loader2/>}><UserSignup/></Suspense>}/>
-          <Route path = '/admin/signin' element = {<Suspense fallback={<Loader2/>}><AdminSignin/></Suspense>}/>        
-          <Route path = '/admin/signup' element = {<Suspense fallback={<Loader2/>}><AdminSignup/></Suspense>}/> 
-          <Route path = '/admin/profile' element = {<Suspense fallback={<Loader2/>}><AdminProfile/></Suspense>}/> 
-          <Route path = '/admin/dashboard' element = {<Suspense fallback={<Loader2/>}><AdminDashboard/></Suspense>}/> 
-          <Route path = '/user/dashboard' element = {<Suspense fallback={<Loader2/>}><UserDashboard/></Suspense>}/> 
-          <Route path = '/user/profile' element = {<Suspense fallback={<Loader2/>}><UserProfile/></Suspense>}/> 
-        </Routes>
-      </BrowserRouter>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <BrowserRouter>
+          <Routes>
+            <Route path = '/' element = {<Suspense fallback={<Loader2/>}>{<Home/>}</Suspense>}/>
+            <Route path = '/user/signin' element = {<Suspense fallback={<Loader2/>}>{<UserSignin/>}</Suspense>}/>
+            <Route path = '/user/signup' element = {<Suspense fallback={<Loader2/>}><UserSignup/></Suspense>}/>
+            <Route path = '/admin/signin' element = {<Suspense fallback={<Loader2/>}><AdminSignin/></Suspense>}/>        
+            <Route path = '/admin/signup' element = {<Suspense fallback={<Loader2/>}><AdminSignup/></Suspense>}/> 
+            <Route path = '/admin/profile' element = {<Suspense fallback={<Loader2/>}><AdminProfile/></Suspense>}/> 
+            <Route path = '/admin/dashboard' element = {<Suspense fallback={<Loader2/>}><AdminDashboard/></Suspense>}/> 
+            <Route path = '/user/dashboard' element = {<Suspense fallback={<Loader2/>}><UserDashboard/></Suspense>}/> 
+            <Route path = '/user/profile' element = {<Suspense fallback={<Loader2/>}><UserProfile/></Suspense>}/> 
+          </Routes>
+        </BrowserRouter>
+      </div>
     </>
   )
 }

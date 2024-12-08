@@ -2,6 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+    .btn-primary {
+        @apply px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors;
+    }
+    
+    .input-field {
+        @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-200 focus:border-gray-500 outline-none transition-all;
+    }
+    
+    .card {
+        @apply bg-white rounded-lg shadow-sm p-6;
+    }
+}
+
+/* Custom animations */
+@keyframes slideIn {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.slide-in {
+    animation: slideIn 0.3s ease-out;
+}
+
 
 
 .loader1 {

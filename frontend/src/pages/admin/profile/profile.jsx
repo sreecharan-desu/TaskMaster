@@ -67,18 +67,27 @@ export default function AdminProfile(){
         fecthUsername();
     },[])
     return(
-        <>
+        <div className="min-h-screen bg-gray-50">
             <Navbar Username={Username}/>
-            { message ? <Message text={message[0].message} background = {message[0].success}/> : <></>}
-            <div className="flex place-content-center mt-28">
-                <div className="flex-col justify-center place-content-center bg-white shadow-lg text-center p-5 pb-10 w-96 rounded-sm">
-                        <Heading title={'Update Details'}/>
-                        <InputBox text = {'Username'} type={'text'} onInputChange = {usernameHadler}/>
-                        <InputBox text = {'Password'} type={'password'} onInputChange = {passwordHadler}/>
-                        <Button text={'Update'} onclickFn = {UpdateDetails}/>
+            {message && <Message text={message[0].message} background={message[0].success}/>}
+            
+            <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+                <div className="bg-white rounded-lg shadow-xl overflow-hidden">
+                    <div className="px-4 py-5 sm:p-6">
+                        <div className="max-w-lg mx-auto">
+                            <Heading title="Update Profile"/>
+                            <div className="space-y-6">
+                                <InputBox text="Username" type="text" onInputChange={usernameHadler}/>
+                                <InputBox text="Password" type="password" onInputChange={passwordHadler}/>
+                                <div className="pt-4">
+                                    <Button text="Update Details" onclickFn={UpdateDetails}/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 

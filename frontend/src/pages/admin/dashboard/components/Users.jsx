@@ -30,13 +30,13 @@ export function Users(){
     }
 
     return(<>
-        <table style={{textAlign : 'center'}} className="w-10/12 md:w-full" cellPadding={15}>
-            <thead>
+        <table className="w-full overflow-x-auto min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
                 <tr>
-                    <th> S.No </th>
-                    <th> Id </th>
-                    <th> Username </th>
-                    <th> Options </th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">S.No</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Id</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Options</th>
                 </tr>
             </thead>
             {/* {console.log(users[0]==undefined)} */}

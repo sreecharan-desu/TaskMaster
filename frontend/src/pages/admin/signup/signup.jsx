@@ -54,19 +54,25 @@ export default function AdminSignup(){
     }
 
     return(
-    <>
-        { message ? <Message text={message[0].message} background = {message[0].success}/> : <></>}
-        <div className="flex place-content-center mt-28">
-            <div className="flex-col justify-center place-content-center bg-white shadow-lg text-center p-5 pb-10 w-96 rounded-sm">
-                    <Heading title={'Signup'}/>
-                    <InputBox text = {'Username'} type={'text'} onInputChange = {usernameHadler}/>
-                    <InputBox text = {'Password'} type={'password'} onInputChange = {passwordHadler}/>
-                    <Button text={'Signup'} onclickFn = {SignupUser}/>
+        <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+            {message && <Message text={message[0].message} background={message[0].success}/>}
+            
+            <div className="sm:mx-auto sm:w-full sm:max-w-md">
+                <div className="bg-white py-8 px-4 shadow-xl sm:rounded-lg sm:px-10">
+                    <Heading title="Sign Up"/>
+                    <div className="space-y-6">
+                        <InputBox text="Username" type="text" onInputChange={usernameHadler}/>
+                        <InputBox text="Password" type="password" onInputChange={passwordHadler}/>
+                        <Button text="Sign Up" onclickFn={SignupUser}/>
+                    </div>
                     <Hr/>
-                    <br />
-                    <SigninDialogue message={'Already have an account ?'} link = {'/admin/signin'}  linkText={'Signin'} />
+                    <SigninDialogue 
+                        message="Already have an account?" 
+                        link="/admin/signin" 
+                        linkText="Sign In"
+                    />
+                </div>
             </div>
         </div>
-        </>
     )
 }

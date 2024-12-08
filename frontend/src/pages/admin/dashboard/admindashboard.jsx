@@ -52,9 +52,19 @@ export default function AdminDashboard(){
             fetchUsers();
         },[])
         return(<>
-            <Navbar Username ={Username}/>
-            <Wish/>
-            <Users UsersList={users}/>
+            <div className="min-h-screen bg-gray-50">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                    <Navbar Username={Username}/>
+                    <div className="mt-8">
+                        <Wish/>
+                        <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+                            <div className="px-4 py-5 sm:p-6">
+                                <Users UsersList={users}/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </>)    
     }else{
         return(<>
@@ -68,8 +78,15 @@ export default function AdminDashboard(){
 
 function Warning(){
     return(<>
-        <h1 className="flex place-content-center text-3xl">
-            You need to Signin to access this page
-        </h1>
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+            <div className="text-center">
+                <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+                    Access Denied
+                </h1>
+                <p className="text-gray-600">
+                    You need to sign in to access this page
+                </p>
+            </div>
+        </div>
     </>)
 }

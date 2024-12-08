@@ -1,16 +1,16 @@
-import {atom} from 'recoil'
+import { atom } from 'recoil'
 
-export const messageAtom = atom({
-    key : 'messageAtom',
-    default : [{message : '',success : null}]
+export const usersignupmessageAtom = atom({
+    key: 'usersignupmessageAtom',
+    default: [{message: '', success: null}]
 })
 
-export const usernameAtom = atom({
-    key : 'usernameAtom',
-    default : ''
+export const usersignupusernameAtom = atom({
+    key: 'usersignupusernameAtom',
+    default: ''
 })
 
-export const passwordAtom = atom({
-    key : 'passwordAtom',
-    default : ''
+export const usersignuppasswordAtom = atom({
+    key: 'usersignuppasswordAtom',
+    default: ''
 })

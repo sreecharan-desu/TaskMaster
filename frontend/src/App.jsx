@@ -1,9 +1,10 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense } from 'react';
 import './App.css'
-import {BrowserRouter, Route, Routes, useNavigate} from 'react-router-dom';
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import AdminProfile from './pages/admin/profile/profile';
 import UserDashboard from './pages/user/Dashboard/userdashboard';
-import UserProfile from './pages/user/Profile/userprofile';
+const UserProfile = React.lazy(() => import('./pages/user/Profile/userprofile'));
+import Home from './pages/home/Home';
 
 const AdminSignup = React.lazy((()=>import('./pages/admin/signup/signup')));
 const AdminSignin = React.lazy((()=>import('./pages/admin/signin/signin')));
@@ -44,7 +45,7 @@ function App() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <BrowserRouter>
           <Routes>
-            <Route path = '/' element = {<Suspense fallback={<Loader2/>}>{<Home/>}</Suspense>}/>
+            <Route path = '/' element = {<Suspense fallback={<Loader2/>}><Home/></Suspense>}/>
             <Route path = '/user/signin' element = {<Suspense fallback={<Loader2/>}>{<UserSignin/>}</Suspense>}/>
             <Route path = '/user/signup' element = {<Suspense fallback={<Loader2/>}><UserSignup/></Suspense>}/>
             <Route path = '/admin/signin' element = {<Suspense fallback={<Loader2/>}><AdminSignin/></Suspense>}/>        
@@ -59,22 +60,6 @@ function App() {
     </>
   )
 }
-
-function Home(){
-  const navigate = useNavigate();
-  useEffect(()=>{
-    navigate('/user/signup')
-  },[])
-
-  return(<>
-  
-    Hello from frontend
-    
-  </>)
-}
-
-
-
 
 function TodoSkeleton(){
   return(<>

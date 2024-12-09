@@ -1,6 +1,7 @@
 import { useRecoilState } from "recoil";
 import { todoDescription, todosAtom, todoTitle, messageAtom } from "../store/dashboardStore";
 import { useState } from "react";
+import { toast, Toaster } from 'react-hot-toast';
 
 export function AddTodo() {
     const [title, setTitle] = useRecoilState(todoTitle);
@@ -35,13 +36,13 @@ export function AddTodo() {
         }
     };
 
-    const addTodo = async () => {
-        if (!title.trim()) {
-            setMessage([{ message: 'Title cannot be empty', success: false }]);
-            return;
-        }
-
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         setIsLoading(true);
+        const loadingToast = toast.loading('Adding new task...', {
+            icon: '🚀'
+        });
+
         try {
             const response = await fetch('https://task-master-api-psi.vercel.app/api/v1/user/addtodo', {
                 method: 'POST',
@@ -49,22 +50,53 @@ export function AddTodo() {
                     'Content-Type': 'application/json',
                     authorization: 'Bearer ' + JSON.parse(localStorage.getItem('token'))
                 },
-                body: JSON.stringify({ title, description })
+                body: JSON.stringify({
+                    title,
+                    description
+                })
             });
+
             const data = await response.json();
-            
+
             if (data.success) {
-                if (data.todo) {
-                    setTodos(prevTodos => [...prevTodos, data.todo]);
-                }
-                setMessage([{ message: 'Task added successfully!', success: true }]);
+                // Extract todo ID from the success message
+                const todoId = data.msg.split(':')[1].trim();
+                
+                // Immediately update the todos atom with the new todo
+                setTodos(prevTodos => [...prevTodos, {
+                    _id: todoId,
+                    Title: title,
+                    Description: description,
+                    Completed: false,
+                    Time: new Date().toISOString()
+                }]);
+                
+                toast.success(`"${title}" added successfully! 🎯`, {
+                    id: loadingToast,
+                    duration: 3000,
+                    position: 'top-right',
+                    style: {
+                        backgroundColor: '#f0fdf4',
+                        border: '1px solid #bbf7d0',
+                        padding: '16px',
+                        color: '#15803d'
+                    },
+                });
+                
+                // Clear the form
                 setTitle('');
                 setDescription('');
             } else {
-                setMessage([{ message: data.msg || 'Failed to add task', success: false }]);
+                toast.error(data.msg || 'Failed to add task', { 
+                    id: loadingToast,
+                    icon: '❌'
+                });
             }
         } catch (error) {
-            setMessage([{ message: 'Error connecting to server', success: false }]);
+            toast.error('Network error. Please try again.', { 
+                id: loadingToast,
+                icon: '⚠️'
+            });
         } finally {
             setIsLoading(false);
         }
@@ -73,12 +105,13 @@ export function AddTodo() {
     const handleKeyPress = (event) => {
         if (event.key === 'Enter' && !event.shiftKey) {
             event.preventDefault();
-            addTodo();
+            handleSubmit();
         }
     };
 
     return (
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+            <Toaster position="top-right" />
             <div className="space-y-4">
                 <div>
                     <input
@@ -101,7 +134,7 @@ export function AddTodo() {
                 </div>
                 <div className="flex justify-end">
                     <button
-                        onClick={addTodo}
+                        onClick={handleSubmit}
                         disabled={isLoading}
                         className={`px-6 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg 
                             hover:from-indigo-600 hover:to-purple-700 transition-all focus:ring-2 focus:ring-indigo-500 

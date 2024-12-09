@@ -58,45 +58,6 @@ export function Toolbar({ activeView, setActiveView }) {
         }
     };
 
-    const fetchTodos = useCallback(async () => {
-        try {
-            const response = await fetch('https://task-master-api-psi.vercel.app/api/v1/user/gettodos', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    authorization: 'Bearer ' + JSON.parse(localStorage.getItem('token'))
-                }
-            });
-            const data = await response.json();
-            if (data.success) {
-                setTodos(data.todos);
-                prevTodosLength.current = data.todos.length;
-            }
-        } catch (error) {
-            console.error('Error fetching todos:', error);
-            // Silently fail for polling to avoid too many error toasts
-        }
-    }, [setTodos]);
-
-    // Initial fetch on mount
-    useEffect(() => {
-        fetchTodos();
-    }, [fetchTodos]);
-
-    // Fetch on view change
-    useEffect(() => {
-        fetchTodos();
-    }, [activeView, fetchTodos]);
-
-    // Setup polling every 5 seconds
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            fetchTodos();
-        }, 5000); // 5000 milliseconds = 5 seconds
-
-        // Cleanup interval on component unmount
-        return () => clearInterval(intervalId);
-    }, [fetchTodos]);
 
     return (
         <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-6">

@@ -1,4 +1,4 @@
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, Suspense, useCallback } from 'react';
 import { useRecoilState, useRecoilValue } from "recoil";
 import { todosAtom, Userusername } from "./store/dashboardStore";
 import Todos from './Components/Todos';
@@ -15,7 +15,31 @@ export default function UserDashboard() {
     const [todos, setTodos] = useRecoilState(todosAtom);
     const [isLoading, setIsLoading] = useState(true);
     const [isStatsLoading, setIsStatsLoading] = useState(true);
-    
+    const [stats, setStats] = useState({
+        totalTasks: 0,
+        completedTasks: 0,
+        pendingTasks: 0,
+        todaysTasks: [],
+        thisWeekTasks: [],
+        todaysCompletedTasks: 0,
+        todaysPendingTasks: 0,
+        weeklyCompletedTasks: 0,
+        completionRate: 0
+    });
+
+
+    //                     authorization: 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+    //                 }
+    //             });
+    //             const data = await response.json();
+    //             if (data.success) {
+    //                 setTodos(data.todos);
+    //             }
+    //         } catch (error) {
+    //             console.error('Error fetching todos:', error);
+    //         }        
+    //     }
+
     // Combined fetch for username and todos
     useEffect(() => {
         if(!localStorage.getItem('token')){
@@ -103,41 +127,55 @@ export default function UserDashboard() {
         }
     }, [activeView, setTodos]);
 
-    // Enhanced stats calculations with real data
-    const totalTasks = todos?.length || 0;
-    const completedTasks = todos?.filter(todo => todo.Completed)?.length || 0;
-    const pendingTasks = todos?.filter(todo => !todo.Completed)?.length || 0;
-    
-    // Today's tasks calculations with proper date handling
-    const today = new Date().setHours(0, 0, 0, 0);
-    const todaysTasks = todos?.filter(todo => {
-        if (!todo.Time) return false;
-        const todoDate = new Date(todo.Time);
-        return todoDate.setHours(0, 0, 0, 0) === today;
-    }) || [];
+    // Calculate stats whenever todos changes
+    useEffect(() => {
+        const totalTasks = todos?.length || 0;
+        const completedTasks = todos?.filter(todo => todo.Completed)?.length || 0;
+        const pendingTasks = todos?.filter(todo => !todo.Completed)?.length || 0;
+        
+        // Today's tasks calculations
+        const today = new Date().setHours(0, 0, 0, 0);
+        const todaysTasks = todos?.filter(todo => {
+            if (!todo.Time) return false;
+            const todoDate = new Date(todo.Time);
+            return todoDate.setHours(0, 0, 0, 0) === today;
+        }) || [];
 
-    // This week's tasks with proper date handling
-    const thisWeekStart = new Date();
-    thisWeekStart.setHours(0, 0, 0, 0);
-    thisWeekStart.setDate(thisWeekStart.getDate() - thisWeekStart.getDay());
-    const thisWeekTasks = todos?.filter(todo => {
-        if (!todo.Time) return false;
-        const todoDate = new Date(todo.Time);
-        return todoDate >= thisWeekStart;
-    }) || [];
+        // This week's tasks
+        const thisWeekStart = new Date();
+        thisWeekStart.setHours(0, 0, 0, 0);
+        thisWeekStart.setDate(thisWeekStart.getDate() - thisWeekStart.getDay());
+        const thisWeekTasks = todos?.filter(todo => {
+            if (!todo.Time) return false;
+            const todoDate = new Date(todo.Time);
+            return todoDate >= thisWeekStart;
+        }) || [];
 
-    // Calculate stats
-    const todaysCompletedTasks = todaysTasks.filter(todo => todo.Completed).length;
-    const todaysPendingTasks = todaysTasks.length - todaysCompletedTasks;
-    const weeklyCompletedTasks = thisWeekTasks.filter(todo => todo.Completed).length;
-    const completionRate = totalTasks ? Math.round((completedTasks / totalTasks) * 100) : 0;
+        // Calculate derived stats
+        const todaysCompletedTasks = todaysTasks.filter(todo => todo.Completed).length;
+        const todaysPendingTasks = todaysTasks.length - todaysCompletedTasks;
+        const weeklyCompletedTasks = thisWeekTasks.filter(todo => todo.Completed).length;
+        const completionRate = totalTasks ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
+        setStats({
+            totalTasks,
+            completedTasks,
+            pendingTasks,
+            todaysTasks,
+            thisWeekTasks,
+            todaysCompletedTasks,
+            todaysPendingTasks,
+            weeklyCompletedTasks,
+            completionRate
+        });
+    }, [todos]);
 
     // Get productivity message based on completion rate
     const getProductivityMessage = () => {
-        if (completionRate >= 80) return "Outstanding productivity! 🌟";
-        if (completionRate >= 60) return "Great progress! Keep it up! 💪";
-        if (completionRate >= 40) return "You're on the right track! 🎯";
-        if (completionRate >= 20) return "Small steps lead to big achievements! 🌱";
+        if (stats.completionRate >= 80) return "Outstanding productivity! 🌟";
+        if (stats.completionRate >= 60) return "Great progress! Keep it up! 💪";
+        if (stats.completionRate >= 40) return "You're on the right track! 🎯";
+        if (stats.completionRate >= 20) return "Small steps lead to big achievements! 🌱";
         return "Let's start achieving those goals! 🚀";
     };
 
@@ -154,21 +192,21 @@ export default function UserDashboard() {
     const getTimeBasedMessage = () => {
         const hour = new Date().getHours();
         if (hour < 12) {
-            return pendingTasks > 0 
+            return stats.pendingTasks > 0 
                 ? "Start your day strong! 🌅" 
                 : "Perfect morning start! ☀️";
         }
         if (hour < 17) {
-            return pendingTasks > 0 
+            return stats.pendingTasks > 0 
                 ? "Keep the momentum going! 💪" 
                 : "Fantastic progress today! 🌟";
         }
         if (hour < 21) {
-            return pendingTasks > 0 
+            return stats.pendingTasks > 0 
                 ? "There's still time to achieve more! 🌙" 
                 : "What a productive day! 🌆";
         }
-        return pendingTasks > 0 
+        return stats.pendingTasks > 0 
             ? "Wrap up your day with a final push! ✨" 
             : "Rest well, champion! 🌙";
     };
@@ -201,7 +239,7 @@ export default function UserDashboard() {
                     <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:space-x-6 space-y-2 sm:space-y-0">
                         <p className="text-lg text-gray-500 font-medium">
                             <span className="inline-block mr-2"></span>
-                            {new Date().toLocaleDateString('en-US', { 
+                            {new Date().toLocaleDateString('en-IN', { 
                                 weekday: 'long', 
                                 year: 'numeric', 
                                 month: 'long', 
@@ -236,16 +274,16 @@ export default function UserDashboard() {
                         ) : (
                             <div className="space-y-4">
                                 <p className="text-4xl font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">
-                                    {todaysTasks.length}
+                                    {stats.todaysTasks.length}
                                 </p>
                                 <div className="space-y-2">
                                     <div className="flex items-center justify-between">
                                         <p className="text-sm font-medium text-gray-500">Completed</p>
-                                        <p className="text-sm font-bold text-green-600">{todaysCompletedTasks}</p>
+                                        <p className="text-sm font-bold text-green-600">{stats.todaysCompletedTasks}</p>
                                     </div>
                                     <div className="flex items-center justify-between">
                                         <p className="text-sm font-medium text-gray-500">Pending</p>
-                                        <p className="text-sm font-bold text-orange-600">{todaysPendingTasks}</p>
+                                        <p className="text-sm font-bold text-orange-600">{stats.todaysPendingTasks}</p>
                                     </div>
                                 </div>
                             </div>
@@ -271,17 +309,17 @@ export default function UserDashboard() {
                         ) : (
                             <div className="space-y-4">
                                 <p className="text-4xl font-bold text-gray-900 group-hover:text-green-600 transition-colors">
-                                    {thisWeekTasks.length}
+                                    {stats.thisWeekTasks.length}
                                 </p>
                                 <div className="space-y-2">
                                     <div className="flex items-center justify-between">
                                         <p className="text-sm font-medium text-gray-500">Completed</p>
-                                        <p className="text-sm font-bold text-green-600">{weeklyCompletedTasks}</p>
+                                        <p className="text-sm font-bold text-green-600">{stats.weeklyCompletedTasks}</p>
                                     </div>
                                     <div className="flex items-center justify-between">
                                         <p className="text-sm font-medium text-gray-500">Pending</p>
                                         <p className="text-sm font-bold text-orange-600">
-                                            {thisWeekTasks.length - weeklyCompletedTasks}
+                                            {stats.thisWeekTasks.length - stats.weeklyCompletedTasks}
                                         </p>
                                     </div>
                                 </div>
@@ -306,21 +344,21 @@ export default function UserDashboard() {
                         ) : (
                             <div className="space-y-4">
                                 <p className="text-4xl font-bold text-gray-900 group-hover:text-purple-600 transition-colors">
-                                    {completionRate}%
+                                    {stats.completionRate}%
                                 </p>
                                 <div className="space-y-3">
                                     <div className="w-full bg-gray-100 rounded-full h-2">
                                         <div 
                                             className="bg-purple-600 h-2 rounded-full transition-all duration-500 ease-out"
-                                            style={{ width: `${completionRate}%` }}
+                                            style={{ width: `${stats.completionRate}%` }}
                                         />
                                     </div>
                                     <div className="flex items-center justify-between text-sm">
                                         <p className="font-medium text-gray-500">
-                                            {completedTasks} completed
+                                            {stats.completedTasks} completed
                                         </p>
                                         <p className="font-medium text-gray-500">
-                                            {totalTasks} total
+                                            {stats.totalTasks} total
                                         </p>
                                     </div>
                                 </div>
@@ -348,9 +386,9 @@ export default function UserDashboard() {
                                 </p>
                                 <div className="pt-2 border-t border-gray-100">
                                     <p className="text-sm text-gray-500 leading-relaxed">
-                                        {pendingTasks === 0 
+                                        {stats.pendingTasks === 0 
                                             ? "Incredible! You've completed all your tasks! Time to set new goals and keep the momentum going! 🎉" 
-                                            : `You're just ${pendingTasks} task${pendingTasks === 1 ? '' : 's'} away from achieving all your goals! Keep pushing forward! 💪`
+                                            : `You're just ${stats.pendingTasks} task${stats.pendingTasks === 1 ? '' : 's'} away from achieving all your goals! Keep pushing forward! 💪`
                                         }
                                     </p>
                                 </div>

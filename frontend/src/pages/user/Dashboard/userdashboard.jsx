@@ -1,12 +1,13 @@
-import { useState, useEffect, Suspense, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRecoilState, useRecoilValue } from "recoil";
 import { todosAtom, Userusername } from "./store/dashboardStore";
 import Todos from './Components/Todos';
 import { Toolbar } from './Components/Toolbar';
 import Navbar from './Components/Navbar';
-import LoadingOverlay from './Components/LoadingOverlay';
 import { AddTodo } from './Components/Addtodo';
 import { useNavigate } from 'react-router-dom';
+import Particles from "react-particles";
+import { loadFull } from "tsparticles";
 
 export default function UserDashboard() {
     const navigate = useNavigate();
@@ -26,19 +27,33 @@ export default function UserDashboard() {
         weeklyCompletedTasks: 0,
         completionRate: 0
     });
+    const [showCelebration, setShowCelebration] = useState(false);
 
+    const fetchTodos = async () => {
+        try {
+            const response = await fetch('https://task-master-api-psi.vercel.app/api/v1/user/gettodos', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+                }
+            });
+            const data = await response.json();
+            if (data.success) {
+                setTodos(data.todos);
+            }
+        } catch (error) {
+            console.error('Error fetching todos:', error);
+        }
+    }
 
-    //                     authorization: 'Bearer ' + JSON.parse(localStorage.getItem('token'))
-    //                 }
-    //             });
-    //             const data = await response.json();
-    //             if (data.success) {
-    //                 setTodos(data.todos);
-    //             }
-    //         } catch (error) {
-    //             console.error('Error fetching todos:', error);
-    //         }        
-    //     }
+    useEffect(() => {
+        const interval = setInterval(() => {
+            window.location.reload();
+        }, 60*1000);
+
+        return () => clearInterval(interval);
+    }, []);
 
     // Combined fetch for username and todos
     useEffect(() => {
@@ -211,6 +226,21 @@ export default function UserDashboard() {
             : "Rest well, champion! 🌙";
     };
 
+    // Particles initialization
+    const particlesInit = useCallback(async engine => {
+        await loadFull(engine);
+    }, []);
+
+    // Check for 100% completion whenever stats change
+    useEffect(() => {
+        if (stats.totalTasks > 0 && stats.completionRate === 100) {
+            setShowCelebration(true);
+            setTimeout(() => setShowCelebration(false), 20000);
+        } else {
+            setShowCelebration(false);
+        }
+    }, [stats.completionRate, stats.totalTasks]);
+
     if(!localStorage.getItem('token')){
         return <div className="text-center py-12">
             <p className="text-red-600">Please login to continue</p>
@@ -219,9 +249,7 @@ export default function UserDashboard() {
     
     return (
         <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
-            <Suspense fallback={<LoadingOverlay />}>
-                <Navbar username={username} />
-            </Suspense>
+            <Navbar username={username} />
             
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* Enhanced Welcome Section */}
@@ -455,23 +483,172 @@ export default function UserDashboard() {
                             ) : (
                                 <AddTodo />
                             )}
-                            
-                            {/* Floating Action Button */}
-                            <button
-                                onClick={() => setActiveView('add')}
-                                className="fixed bottom-8 right-8 w-14 h-14 bg-gradient-to-r from-indigo-500 to-purple-600 
-                                    rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200
-                                    flex items-center justify-center text-white"
-                                title="Add New Todo"
-                            >
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                </svg>
-                            </button>
                         </>
                     )}
                 </div>
             </div>
+            {showCelebration && (
+                <Particles
+                    id="tsparticles"
+                    init={particlesInit}
+                    options={{
+                        fullScreen: {
+                            enable: true,
+                            zIndex: 1
+                        },
+                        fpsLimit: 120,
+                        particles: {
+                            number: {
+                                value: 100,
+                                density: {
+                                    enable: true,
+                                    value_area: 1000
+                                }
+                            },
+                            color: {
+                                value: ["#FFD700", "#FF69B4", "#4CAF50", "#00BCD4", "#9C27B0"],
+                                animation: {
+                                    enable: true,
+                                    speed: 20,
+                                    sync: false
+                                }
+                            },
+                            shape: {
+                                type: ["circle", "star"],
+                                options: {
+                                    star: {
+                                        sides: 5
+                                    }
+                                }
+                            },
+                            opacity: {
+                                value: 0.8,
+                                random: true,
+                                animation: {
+                                    enable: true,
+                                    speed: 0.5,
+                                    minimumValue: 0.3,
+                                    sync: false
+                                }
+                            },
+                            size: {
+                                value: 5,
+                                random: {
+                                    enable: true,
+                                    minimumValue: 2
+                                },
+                                animation: {
+                                    enable: true,
+                                    speed: 2,
+                                    minimumValue: 1,
+                                    sync: false
+                                }
+                            },
+                            move: {
+                                enable: true,
+                                speed: 3,
+                                direction: "none",
+                                random: false,
+                                straight: false,
+                                outModes: {
+                                    default: "out",
+                                    bottom: "out",
+                                    left: "out",
+                                    right: "out",
+                                    top: "out"
+                                },
+                                attract: {
+                                    enable: true,
+                                    distance: 200,
+                                    rotate: {
+                                        x: 600,
+                                        y: 1200
+                                    }
+                                }
+                            }
+                        },
+                        interactivity: {
+                            detectsOn: "canvas",
+                            events: {
+                                onHover: {
+                                    enable: true,
+                                    mode: ["grab", "bubble"],
+                                    parallax: {
+                                        enable: true,
+                                        force: 60,
+                                        smooth: 10
+                                    }
+                                },
+                                onClick: {
+                                    enable: true,
+                                    mode: "push"
+                                }
+                            },
+                            modes: {
+                                grab: {
+                                    distance: 200,
+                                    links: {
+                                        opacity: 0.4
+                                    }
+                                },
+                                bubble: {
+                                    distance: 200,
+                                    size: 12,
+                                    duration: 2,
+                                    opacity: 0.8,
+                                    speed: 3
+                                },
+                                push: {
+                                    quantity: 6
+                                }
+                            }
+                        },
+                        detectRetina: true,
+                        background: {
+                            color: "transparent",
+                            image: "",
+                            position: "50% 50%",
+                            repeat: "no-repeat",
+                            size: "cover",
+                            opacity: 0
+                        },
+                        style: {
+                            position: "absolute",
+                            width: "100%",
+                            height: "100%",
+                            zIndex: 1,
+                            top: 0,
+                            left: 0,
+                            pointerEvents: "none",
+                            background: "transparent"
+                        }
+                    }}
+                    style={{
+                        position: "fixed",
+                        width: "100%",
+                        height: "100%",
+                        zIndex: 1,
+                        top: 0,
+                        left: 0,
+                        pointerEvents: "none",
+                        background: "transparent"
+                    }}
+                />
+            )}
+
+            {showCelebration && (
+                <div 
+                    className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 
+                        bg-white/90 px-8 py-4 rounded-full shadow-lg border border-green-200
+                        animate-bounce flex items-center gap-3 transition-all duration-500 ease-in-out"
+                >
+                    <span className="text-4xl animate-spin-slow">🎉</span>
+                    <p className="text-xl font-bold bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent">
+                        Incredible! All Tasks Completed! 
+                    </p>
+                    <span className="text-4xl animate-pulse">🏆</span>
+                </div>
+            )}
         </div>
     );
 }

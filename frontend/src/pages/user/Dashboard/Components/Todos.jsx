@@ -1,24 +1,29 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { useRecoilState } from "recoil"
 import { todosAtom, updateStatus } from "../store/dashboardStore";
 import { AddTodo } from "./Addtodo";
 import UpdateTodo from "./updatetodo";
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Todos({ activeView }) {
-    const [todos, Settodos] = useRecoilState(todosAtom);
+    const [todos, setTodos] = useRecoilState(todosAtom);
     const [updatestatus, setUpdatestatus] = useRecoilState(updateStatus);
     const [loadingTodoId, setLoadingTodoId] = useState(null);
+    const [filteredTodos, setFilteredTodos] = useState([]);
+    const prevTodosLength = useRef(0);
 
-    // Filter todos based on activeView
-    const filteredTodos = todos?.filter(todo => {
-        if (activeView === 'completed') {
-            return todo.Completed;
-        } else if (activeView === 'pending') {
-            return !todo.Completed;
-        }
-        return true; // Show all todos for 'add' view
-    });
+    useEffect(() => {
+        const filter = todos.length ? todos.filter(todo => {
+            if (activeView === 'completed') {
+                return todo.Completed;
+            } else if (activeView === 'pending') {
+                return !todo.Completed;
+            }
+            return true; // Show all todos for 'add' view
+        }) : [];
+        
+        setFilteredTodos(filter);
+    }, [todos, activeView]);
 
     useEffect(() => {
         const fetchTodos = async() => {
@@ -32,21 +37,22 @@ export default function Todos({ activeView }) {
                 });
                 const data = await response.json();
                 if (data.success) {
-                    Settodos(data.todos);
-                } else {
-                    toast.error('Failed to fetch todos');
+                    if (data.todos.length > prevTodosLength.current) {
+                        toast.success('Task created successfully!');
+                    }
+                    setTodos(data.todos);
+                    prevTodosLength.current = data.todos.length;
                 }
             } catch (error) {
                 toast.error('Error connecting to server');
             }
         }
         fetchTodos();
-    }, [Settodos])
+    }, [setTodos])
 
-    const markAsCompleted = async(todoid) => {
+    const markAsCompleted = async (todoid) => {
         setLoadingTodoId(todoid);
-        const markToast = toast.loading('Updating task...');
-        
+        const loadingToast = toast.loading('Updating task...');
         try {
             const response = await fetch(`https://task-master-api-psi.vercel.app/api/v1/user/markasdone?todoid=${todoid}`, {
                 method: 'POST',
@@ -58,22 +64,25 @@ export default function Todos({ activeView }) {
             const data = await response.json();
             
             if (data.success) {
-                toast.success('Task marked as complete!', { id: markToast });
-                await fetchTodos();
+                setTodos(prevTodos => 
+                    prevTodos.map(todo => 
+                        todo._id === todoid ? { ...todo, Completed: true } : todo
+                    )
+                );
+                toast.success(data.msg, { id: loadingToast });
             } else {
-                toast.error(data.msg || 'Failed to update task', { id: markToast });
+                toast.error(data.msg, { id: loadingToast });
             }
         } catch (error) {
-            toast.error('Failed to update task', { id: markToast });
+            toast.error('Network error. Please try again.', { id: loadingToast });
         } finally {
             setLoadingTodoId(null);
         }
-    }
+    };
 
-    const removeTodo = async(todoid) => {
+    const removeTodo = async (todoid) => {
         setLoadingTodoId(todoid);
-        const deleteToast = toast.loading('Deleting task...');
-
+        const loadingToast = toast.loading('Deleting task...');
         try {
             const response = await fetch(`https://task-master-api-psi.vercel.app/api/v1/user/removetodo?todoid=${todoid}`, {
                 method: 'DELETE',
@@ -85,17 +94,17 @@ export default function Todos({ activeView }) {
             const data = await response.json();
             
             if (data.success) {
-                toast.success('Task deleted successfully!', { id: deleteToast });
-                await fetchTodos();
+                setTodos(prevTodos => prevTodos.filter(todo => todo._id !== todoid));
+                toast.success(data.msg, { id: loadingToast });
             } else {
-                toast.error(data.msg || 'Failed to delete task', { id: deleteToast });
+                toast.error(data.msg, { id: loadingToast });
             }
         } catch (error) {
-            toast.error('Failed to delete task', { id: deleteToast });
+            toast.error('Network error. Please try again.', { id: loadingToast });
         } finally {
             setLoadingTodoId(null);
         }
-    }
+    };
 
     const updateTodo = (todoindex) => { 
         setUpdatestatus([{
@@ -138,48 +147,54 @@ export default function Todos({ activeView }) {
                                 </div>
 
                                 <div className="flex flex-col space-y-2">
-                                    <button 
-                                        onClick={() => updateTodo(todo._id)}
-                                        disabled={loadingTodoId === todo._id}
-                                        className={`inline-flex items-center px-3 py-1.5 text-sm 
-                                            ${loadingTodoId === todo._id 
-                                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                                : 'text-indigo-600 bg-indigo-50 hover:bg-indigo-100'} 
-                                            rounded-lg transition-colors duration-200`}
-                                    >
-                                        {loadingTodoId === todo._id ? (
-                                            <svg className="animate-spin h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24">
-                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
-                                            </svg>
-                                        ) : (
-                                            <svg className="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                            </svg>
-                                        )}
-                                        {loadingTodoId === todo._id ? 'Updating...' : 'Edit'}
-                                    </button>
-                                    <button 
-                                        onClick={() => markAsCompleted(todo._id)}
-                                        disabled={todo.Completed || loadingTodoId === todo._id}
-                                        className={`inline-flex items-center px-3 py-1.5 text-sm 
-                                            ${todo.Completed || loadingTodoId === todo._id
-                                                ? 'text-gray-400 bg-gray-50 cursor-not-allowed' 
-                                                : 'text-green-600 bg-green-50 hover:bg-green-100'} 
-                                            rounded-lg transition-colors duration-200`}
-                                    >
-                                        {loadingTodoId === todo._id ? (
-                                            <svg className="animate-spin h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24">
-                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
-                                            </svg>
-                                        ) : (
-                                            <svg className="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        )}
-                                        {loadingTodoId === todo._id ? 'Updating...' : 'Complete'}
-                                    </button>
+                                    {!todo.Completed && (
+                                        <>
+                                            <button 
+                                                onClick={() => updateTodo(todo._id)}
+                                                disabled={loadingTodoId === todo._id}
+                                                className={`inline-flex items-center px-3 py-1.5 text-sm 
+                                                    ${loadingTodoId === todo._id 
+                                                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                                        : 'text-indigo-600 bg-indigo-50 hover:bg-indigo-100'} 
+                                                    rounded-lg transition-colors duration-200`}
+                                            >
+                                                {loadingTodoId === todo._id ? (
+                                                    <svg className="animate-spin h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24">
+                                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                                                    </svg>
+                                                ) : (
+                                                    <svg className="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                    </svg>
+                                                )}
+                                                {loadingTodoId === todo._id ? 'Updating...' : 'Edit'}
+                                            </button>
+
+                                            <button 
+                                                onClick={() => markAsCompleted(todo._id)}
+                                                disabled={loadingTodoId === todo._id}
+                                                className={`inline-flex items-center px-3 py-1.5 text-sm 
+                                                    ${loadingTodoId === todo._id
+                                                        ? 'text-gray-400 bg-gray-50 cursor-not-allowed' 
+                                                        : 'text-green-600 bg-green-50 hover:bg-green-100'} 
+                                                    rounded-lg transition-colors duration-200`}
+                                            >
+                                                {loadingTodoId === todo._id ? (
+                                                    <svg className="animate-spin h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24">
+                                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                                                    </svg>
+                                                ) : (
+                                                    <svg className="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                                                    </svg>
+                                                )}
+                                                {loadingTodoId === todo._id ? 'Updating...' : 'Complete'}
+                                            </button>
+                                        </>
+                                    )}
+
                                     <button 
                                         onClick={() => removeTodo(todo._id)}
                                         disabled={loadingTodoId === todo._id}
